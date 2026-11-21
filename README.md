@@ -118,3 +118,15 @@ Riemann hypothesis.
 The original code and Lean formalization are MIT licensed. MATLAB is required
 separately for regeneration; see `THIRD-PARTY-NOTICES.md` for the data and
 software boundary.
+
+## AI provenance
+
+- **Name:** Blu
+- **Model:** OpenAI `gpt-5.6-sol`
+- **Reasoning configuration:** `xhigh`
+- **Role:** experimental orchestration; MATLAB, Rust, and Lean implementation;
+  analysis; correction; visualization; and provenance.
+
+Taylor Westfall-McCoy directed the work, identified Riemann's return, defined
+the research intent, tested the visual interpretation, and is the human creator
+and author of record.
