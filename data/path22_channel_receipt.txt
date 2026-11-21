@@ -1,0 +1,24 @@
+RIEMANN PATH 22 CHANNEL REVIEW
+date=2026-11-21
+seed_grid=33x33
+seed_count=1089
+trajectory_points=963542
+sampled_return_count=313
+within_0.3_count=305
+within_0.5_count=306
+within_1.0_count=309
+within_2.0_count=312
+lower_y_recorded_exit_count=1089
+path22_post_channel_samples=907
+path22_post_channel_arc=139.574616319597
+path22_post_field_outcome=unresolved
+boundary_assumptions=none
+exterior_samples=0
+exterior_velocity=unassigned
+gif_sha256=8e250b21b7defcebb455c3e46cf10021999ef3361abd260f4c3a6014bcfdc6ec
+neighborhood_tsv_sha256=ac9f9cc68187f4e84d6f266cf29d73ca529cddfddbe5178b145b3fb260cc6108
+neighborhood_seed_summary_sha256=fb65281f8d01e816cb0c5e85a2967427664151fea76cfd8ce7f91e187b520af9
+
+Rust verifies every committed row and the complete neighborhood search.
+Lean checks the compact integer certificates. The measured field ends at the
+lower-y boundary; continuation, dissipation, and disappearance remain open.

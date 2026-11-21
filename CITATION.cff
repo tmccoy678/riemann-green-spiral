@@ -1,15 +1,15 @@
 cff-version: 1.2.0
 message: "If you use this formal visualization artifact, please cite it as below."
 title: "Riemann Green Spiral: A Lean-Checked MATLAB Streamline Visualization Artifact"
-abstract: "A Lean-checked MATLAB streamline return artifact directed by Taylor Westfall-McCoy and implemented with AI collaborator Blu, OpenAI gpt-5.6-sol at xhigh reasoning."
-version: 0.1.0
+abstract: "A Lean- and Rust-checked MATLAB streamline recurrence-channel artifact directed by Taylor Westfall-McCoy and implemented with AI collaborator Blu, OpenAI gpt-5.6-sol at xhigh reasoning."
+version: 0.2.0
 date-released: 2026-11-21
 type: software
 authors:
   - family-names: "Westfall-McCoy"
     given-names: "Taylor"
 license: MIT
-doi: 10.5281/zenodo.24413532
+doi: 10.5281/zenodo.24413531
 repository-code: "https://github.com/tmccoy678/riemann-green-spiral"
 keywords:
   - Lean 4
