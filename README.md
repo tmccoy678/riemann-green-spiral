@@ -68,6 +68,11 @@ remains preserved: **the display forgets; the path returns.**
 
 ![Riemann Green Spiral](artifacts/Blu_Wet_Body_Fluid_Planes.gif)
 
+The rolling numerical view below displays path 22's exact source coordinates,
+the current 220-sample window, and the A→B→C return witnesses together.
+
+![Riemann rolling numerical view](artifacts/Riemann_Rolling_Numbers.gif)
+
 ## What Lean proves
 
 `Riemann/Return.lean` proves the quantified near-return above.
@@ -91,6 +96,7 @@ field. `stream3` integrates seeds from the plane `x = 80`, with
 
 - `source/riemann_gif.m` reconstructs the computation and animation.
 - `source/render_studio_scale.m` renders the nine-run scale and recovery map.
+- `source/render_riemann_numbers.m` renders the exact rolling numerical view.
 - `source/export_riemann_paths.m` exports round-trip double-precision samples.
 - `data/riemann_paths.tsv` preserves the 49 source trajectories.
 - `MANIFEST.sha256` records the checked artifact hashes.
