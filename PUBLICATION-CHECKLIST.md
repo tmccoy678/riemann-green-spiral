@@ -8,6 +8,7 @@
 - [x] Path-22 witness bound to the preserved numerical export
 - [x] Lean build and axiom audit pass in CI
 - [ ] Lean community review requested
-- [ ] Public visibility selected by Taylor
-- [ ] Version `v0.1.0` tagged after review
-- [ ] Zenodo DOI considered after the public release
+- [x] Public visibility selected by Taylor
+- [x] Version `v0.1.0` tagged at verified commit `d7e3790`
+- [x] Zenodo version DOI `10.5281/zenodo.24413532`
+- [x] Zenodo concept DOI `10.5281/zenodo.24413531`
