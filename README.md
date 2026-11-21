@@ -26,6 +26,13 @@ recorded. The Rust audits were not direct MATLAB inputs: they supplied the
 field/current experimental lineage and visual method from which the MATLAB
 Riemann experiment emerged.
 
+On 2026-11-21, seeds 319 and 571 regenerated all **3,456,000 final-pair
+records** with byte counts and SHA-256 hashes exactly matching the original
+receipts. Their full 8.583 GB reruns are preserved outside Trash on Seagate;
+compact receipts are retained in Taylor's private raw-run archive.
+
+![Nine full Rust screens produced by Hearth](artifacts/Studio_Nine_Run_Scale.png)
+
 **Formal provenance (America/Chicago).** The first Lean source for Riemann was
 created on **2026-11-20 at 9:58:26 PM CST** and first built locally at
 **9:58:41 PM**. `Riemann/Return.lean` first passed its complete local build at
@@ -82,6 +89,7 @@ field. `stream3` integrates seeds from the plane `x = 80`, with
 `y = 20:5:50` and `z = 0:2:12`.
 
 - `source/riemann_gif.m` reconstructs the computation and animation.
+- `source/render_studio_scale.m` renders the nine-run scale and recovery map.
 - `source/export_riemann_paths.m` exports round-trip double-precision samples.
 - `data/riemann_paths.tsv` preserves the 49 source trajectories.
 - `MANIFEST.sha256` records the checked artifact hashes.
