@@ -76,6 +76,74 @@ struct FieldBounds {
     maximum: Point,
 }
 
+#[derive(Clone, Debug)]
+struct SpectrumRow {
+    start: usize,
+    end: usize,
+    transitions: usize,
+    rmse: f64,
+    trace: f64,
+    determinant: f64,
+    fixed_point: Point,
+    matrix: [f64; 9],
+    offset: [f64; 3],
+    spiral_real: f64,
+    spiral_imag: f64,
+    spiral_magnitude: f64,
+    spiral_log_magnitude: f64,
+    spiral_angle: f64,
+    spiral_vertical_participation: f64,
+    vertical_real: f64,
+    vertical_magnitude: f64,
+    vertical_log_magnitude: f64,
+    vertical_participation: f64,
+    rotation_period: f64,
+    rotations_in_segment: f64,
+    plane_log_total: f64,
+    vertical_log_total: f64,
+    net_log_total: f64,
+}
+
+#[derive(Clone, Copy, Debug)]
+struct ComplexValue {
+    real: f64,
+    imag: f64,
+}
+
+impl ComplexValue {
+    fn add(self, right: Self) -> Self {
+        Self {
+            real: self.real + right.real,
+            imag: self.imag + right.imag,
+        }
+    }
+
+    fn scale(self, factor: f64) -> Self {
+        Self {
+            real: self.real * factor,
+            imag: self.imag * factor,
+        }
+    }
+
+    fn multiply(self, right: Self) -> Self {
+        Self {
+            real: self.real * right.real - self.imag * right.imag,
+            imag: self.real * right.imag + self.imag * right.real,
+        }
+    }
+
+    fn magnitude(self) -> f64 {
+        self.real.hypot(self.imag)
+    }
+}
+
+#[derive(Clone, Copy, Debug)]
+struct PoincareCrossing {
+    from_sample: usize,
+    orientation: i32,
+    point: Point,
+}
+
 impl FieldBounds {
     fn contains(self, point: Point) -> bool {
         self.minimum.x <= point.x
@@ -111,6 +179,10 @@ fn positive_usize(text: &str, context: &str) -> Result<usize, String> {
 
 fn micro(value: f64) -> i64 {
     (value * 1_000_000.0).round() as i64
+}
+
+fn scaled(value: f64, scale: f64) -> i64 {
+    (value * scale).round() as i64
 }
 
 fn micro_point(point: Point) -> MicroPoint {
@@ -302,6 +374,310 @@ fn field_bounds(meta: &BTreeMap<String, f64>) -> Result<FieldBounds, String> {
             z: meta_value(meta, "field_z_max")?,
         },
     })
+}
+
+fn read_spectrum(path: &Path) -> Result<BTreeMap<String, SpectrumRow>, String> {
+    let text = fs::read_to_string(path).map_err(|error| format!("{}: {error}", path.display()))?;
+    let mut lines = text.lines();
+    let header = lines
+        .next()
+        .ok_or_else(|| format!("{}: empty file", path.display()))?;
+    let expected = "segment\tstart\tend\ttransitions\trmse\ttrace\tdeterminant\tcondition\tfixed_x\tfixed_y\tfixed_z\ta11\ta12\ta13\ta21\ta22\ta23\ta31\ta32\ta33\tc1\tc2\tc3\tspiral_real\tspiral_imag\tspiral_magnitude\tspiral_log_magnitude\tspiral_angle\tspiral_vertical_participation\tvertical_real\tvertical_magnitude\tvertical_log_magnitude\tvertical_participation\trotation_period\trotations_in_segment\tplane_log_total\tvertical_log_total\tnet_log_total";
+    if header != expected {
+        return Err(format!("{}: unexpected header {header:?}", path.display()));
+    }
+    let mut rows = BTreeMap::new();
+    for (offset, line) in lines.enumerate() {
+        let context = format!("{}:{}", path.display(), offset + 2);
+        let fields = split_exact(line, 38, &context)?;
+        let values = fields[4..]
+            .iter()
+            .map(|value| finite(value, &context))
+            .collect::<Result<Vec<_>, _>>()?;
+        let start = positive_usize(fields[1], &context)?;
+        let end = positive_usize(fields[2], &context)?;
+        let transitions = positive_usize(fields[3], &context)?;
+        if end <= start || transitions != end - start {
+            return Err(format!("{context}: inconsistent segment range"));
+        }
+        let row = SpectrumRow {
+            start,
+            end,
+            transitions,
+            rmse: values[0],
+            trace: values[1],
+            determinant: values[2],
+            fixed_point: Point {
+                x: values[4],
+                y: values[5],
+                z: values[6],
+            },
+            matrix: values[7..16].try_into().expect("nine matrix values"),
+            offset: values[16..19].try_into().expect("three offset values"),
+            spiral_real: values[19],
+            spiral_imag: values[20],
+            spiral_magnitude: values[21],
+            spiral_log_magnitude: values[22],
+            spiral_angle: values[23],
+            spiral_vertical_participation: values[24],
+            vertical_real: values[25],
+            vertical_magnitude: values[26],
+            vertical_log_magnitude: values[27],
+            vertical_participation: values[28],
+            rotation_period: values[29],
+            rotations_in_segment: values[30],
+            plane_log_total: values[31],
+            vertical_log_total: values[32],
+            net_log_total: values[33],
+        };
+        if rows.insert(fields[0].to_owned(), row).is_some() {
+            return Err(format!("{context}: duplicate segment {}", fields[0]));
+        }
+    }
+    if rows.len() != 5 {
+        return Err(format!(
+            "spectral segment cardinality mismatch: {}",
+            rows.len()
+        ));
+    }
+    Ok(rows)
+}
+
+fn read_poincare(path: &Path) -> Result<Vec<PoincareCrossing>, String> {
+    let text = fs::read_to_string(path).map_err(|error| format!("{}: {error}", path.display()))?;
+    let mut lines = text.lines();
+    let header = lines
+        .next()
+        .ok_or_else(|| format!("{}: empty file", path.display()))?;
+    if header != "crossing_id\tfrom_sample\torientation\tx\ty\tz" {
+        return Err(format!("{}: unexpected header {header:?}", path.display()));
+    }
+    let mut crossings = Vec::new();
+    for (offset, line) in lines.enumerate() {
+        let context = format!("{}:{}", path.display(), offset + 2);
+        let fields = split_exact(line, 6, &context)?;
+        let crossing_id = positive_usize(fields[0], &context)?;
+        if crossing_id != crossings.len() + 1 {
+            return Err(format!("{context}: reordered crossing id"));
+        }
+        let orientation = fields[2]
+            .parse::<i32>()
+            .map_err(|error| format!("{context}: invalid orientation: {error}"))?;
+        if ![-1, 1].contains(&orientation) {
+            return Err(format!("{context}: orientation must be -1 or 1"));
+        }
+        crossings.push(PoincareCrossing {
+            from_sample: positive_usize(fields[1], &context)?,
+            orientation,
+            point: Point {
+                x: finite(fields[3], &context)?,
+                y: finite(fields[4], &context)?,
+                z: finite(fields[5], &context)?,
+            },
+        });
+    }
+    if crossings.len() != 16 {
+        return Err(format!(
+            "Poincare crossing cardinality mismatch: {}",
+            crossings.len()
+        ));
+    }
+    Ok(crossings)
+}
+
+fn matrix_trace(matrix: &[f64; 9]) -> f64 {
+    matrix[0] + matrix[4] + matrix[8]
+}
+
+fn matrix_determinant(matrix: &[f64; 9]) -> f64 {
+    matrix[0] * (matrix[4] * matrix[8] - matrix[5] * matrix[7])
+        - matrix[1] * (matrix[3] * matrix[8] - matrix[5] * matrix[6])
+        + matrix[2] * (matrix[3] * matrix[7] - matrix[4] * matrix[6])
+}
+
+fn matrix_second_coefficient(matrix: &[f64; 9]) -> f64 {
+    matrix[0] * matrix[4] + matrix[0] * matrix[8] + matrix[4] * matrix[8]
+        - matrix[1] * matrix[3]
+        - matrix[2] * matrix[6]
+        - matrix[5] * matrix[7]
+}
+
+fn characteristic_residual(matrix: &[f64; 9], value: ComplexValue) -> f64 {
+    let square = value.multiply(value);
+    let cube = square.multiply(value);
+    cube.add(square.scale(-matrix_trace(matrix)))
+        .add(value.scale(matrix_second_coefficient(matrix)))
+        .add(ComplexValue {
+            real: -matrix_determinant(matrix),
+            imag: 0.0,
+        })
+        .magnitude()
+}
+
+fn apply_affine(row: &SpectrumRow, point: Point) -> Point {
+    let input = [point.x, point.y, point.z];
+    let mut output = [0.0; 3];
+    for (target, value) in output.iter_mut().enumerate() {
+        *value = row.offset[target];
+        for (source, coordinate) in input.iter().enumerate() {
+            *value += row.matrix[target * 3 + source] * coordinate;
+        }
+    }
+    Point {
+        x: output[0],
+        y: output[1],
+        z: output[2],
+    }
+}
+
+fn verify_spectrum(rows: &BTreeMap<String, SpectrumRow>, path22: &[Point]) -> Result<(), String> {
+    let expected = [
+        ("return_1", 1_176, 1_376),
+        ("return_2", 1_376, 1_601),
+        ("return_3", 1_601, 1_770),
+        ("channel", 1_176, 1_770),
+        ("post_channel", 1_770, 2_677),
+    ];
+    for (name, start, end) in expected {
+        let row = rows
+            .get(name)
+            .ok_or_else(|| format!("missing spectral segment {name}"))?;
+        if row.start != start || row.end != end || row.transitions != end - start {
+            return Err(format!("{name}: spectral range mismatch"));
+        }
+        let trace_residual = (row.trace - matrix_trace(&row.matrix)).abs();
+        let determinant_residual = (row.determinant - matrix_determinant(&row.matrix)).abs();
+        if trace_residual > 1.0e-12 || determinant_residual > 1.0e-12 {
+            return Err(format!("{name}: trace or determinant mismatch"));
+        }
+        let mut squared_error = 0.0;
+        for sample in start..end {
+            squared_error +=
+                squared_distance(apply_affine(row, path22[sample - 1]), path22[sample]);
+        }
+        let rmse = (squared_error / row.transitions as f64).sqrt();
+        if (rmse - row.rmse).abs() > 1.0e-12 {
+            return Err(format!("{name}: RMSE mismatch"));
+        }
+        let spiral = ComplexValue {
+            real: row.spiral_real,
+            imag: row.spiral_imag,
+        };
+        if characteristic_residual(&row.matrix, spiral) > 1.0e-10
+            || characteristic_residual(
+                &row.matrix,
+                ComplexValue {
+                    real: row.vertical_real,
+                    imag: 0.0,
+                },
+            ) > 1.0e-10
+        {
+            return Err(format!("{name}: eigenvalue certificate mismatch"));
+        }
+        let magnitude = spiral.magnitude();
+        let angle = row.spiral_imag.atan2(row.spiral_real);
+        let period = 2.0 * std::f64::consts::PI / angle.abs();
+        let derived = [
+            (row.spiral_magnitude, magnitude),
+            (row.spiral_log_magnitude, magnitude.ln()),
+            (row.spiral_angle, angle),
+            (row.vertical_magnitude, row.vertical_real.abs()),
+            (row.vertical_log_magnitude, row.vertical_real.abs().ln()),
+            (row.rotation_period, period),
+            (row.rotations_in_segment, row.transitions as f64 / period),
+            (
+                row.plane_log_total,
+                2.0 * row.transitions as f64 * magnitude.ln(),
+            ),
+            (
+                row.vertical_log_total,
+                row.transitions as f64 * row.vertical_real.abs().ln(),
+            ),
+            (
+                row.net_log_total,
+                row.transitions as f64 * (2.0 * magnitude.ln() + row.vertical_real.abs().ln()),
+            ),
+        ];
+        if derived
+            .into_iter()
+            .any(|(observed, recomputed)| (observed - recomputed).abs() > 1.0e-11)
+        {
+            return Err(format!("{name}: derived spectral metric mismatch"));
+        }
+        if !(0.0..=1.0).contains(&row.spiral_vertical_participation)
+            || !(0.0..=1.0).contains(&row.vertical_participation)
+        {
+            return Err(format!("{name}: invalid eigenvector participation"));
+        }
+    }
+
+    let channel = &rows["channel"];
+    let certificate = [
+        (scaled(channel.spiral_magnitude, 1.0e9), 1_000_336_369),
+        (scaled(channel.vertical_magnitude, 1.0e9), 999_248_201),
+        (scaled(channel.determinant, 1.0e9), 999_920_547),
+        (scaled(channel.rotations_in_segment, 1.0e6), 7_905_063),
+        (scaled(channel.plane_log_total, 1.0e9), 399_539_664),
+        (scaled(channel.vertical_log_total, 1.0e9), -446_736_681),
+        (scaled(channel.net_log_total, 1.0e9), -47_197_017),
+        (scaled(channel.vertical_participation, 1.0e9), 985_681_366),
+    ];
+    for (observed, expected) in certificate {
+        if observed != expected {
+            return Err(format!(
+                "channel spectral certificate mismatch: {observed} != {expected}"
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn verify_poincare(crossings: &[PoincareCrossing], section_x: f64) -> Result<(), String> {
+    let mut last_sample = 0usize;
+    let mut positive_y = f64::NEG_INFINITY;
+    let mut negative_y = f64::INFINITY;
+    let mut last_z = f64::INFINITY;
+    for (index, crossing) in crossings.iter().enumerate() {
+        let expected_orientation = if index % 2 == 0 { 1 } else { -1 };
+        if crossing.orientation != expected_orientation {
+            return Err(format!(
+                "crossing {}: orientation does not alternate",
+                index + 1
+            ));
+        }
+        if crossing.from_sample <= last_sample || (crossing.point.x - section_x).abs() > 1.0e-9 {
+            return Err(format!(
+                "crossing {}: ordering or section mismatch",
+                index + 1
+            ));
+        }
+        if crossing.point.z >= last_z {
+            return Err(format!(
+                "crossing {}: z is not strictly descending",
+                index + 1
+            ));
+        }
+        if crossing.orientation > 0 {
+            if crossing.point.y <= positive_y {
+                return Err(format!(
+                    "crossing {}: positive branch is not expanding",
+                    index + 1
+                ));
+            }
+            positive_y = crossing.point.y;
+        } else {
+            if crossing.point.y >= negative_y {
+                return Err(format!(
+                    "crossing {}: negative branch is not expanding",
+                    index + 1
+                ));
+            }
+            negative_y = crossing.point.y;
+        }
+        last_sample = crossing.from_sample;
+        last_z = crossing.point.z;
+    }
+    Ok(())
 }
 
 fn read_seed_summaries(path: &Path) -> Result<BTreeMap<usize, SeedSummary>, String> {
@@ -620,6 +996,10 @@ fn run(root: &Path) -> Result<(), String> {
     let (flow, max_speed_residual) = read_flow(&root.join("data/path22_flow.tsv"), path22)?;
     let meta = read_meta(&root.join("data/path22_field_meta.tsv"))?;
     let bounds = field_bounds(&meta)?;
+    let spectrum = read_spectrum(&root.join("data/path22_spectrum.tsv"))?;
+    verify_spectrum(&spectrum, path22)?;
+    let poincare = read_poincare(&root.join("data/path22_poincare.tsv"))?;
+    verify_poincare(&poincare, spectrum["channel"].fixed_point.x)?;
     if paths
         .values()
         .flat_map(|path| path.iter())
@@ -802,6 +1182,18 @@ fn run(root: &Path) -> Result<(), String> {
     println!(
         "boundary_assumptions=none exterior_samples={} exterior_velocity=unassigned",
         neighborhood.exterior_samples
+    );
+    let channel_spectrum = &spectrum["channel"];
+    println!(
+        "spectrum_rotations={:.12} plane_log={:.12} vertical_log={:.12} net_log={:.12}",
+        channel_spectrum.rotations_in_segment,
+        channel_spectrum.plane_log_total,
+        channel_spectrum.vertical_log_total,
+        channel_spectrum.net_log_total
+    );
+    println!(
+        "poincare_crossings={} orientation=alternating z=strictly_descending radial=expanding",
+        poincare.len()
     );
     Ok(())
 }
