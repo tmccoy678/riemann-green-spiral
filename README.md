@@ -1,7 +1,7 @@
 # Riemann Green Spiral
 
 [![Lean and provenance](https://github.com/tmccoy678/riemann-green-spiral/actions/workflows/ci.yml/badge.svg)](https://github.com/tmccoy678/riemann-green-spiral/actions/workflows/ci.yml)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24413532.svg)](https://doi.org/10.5281/zenodo.24413532)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24413531.svg)](https://doi.org/10.5281/zenodo.24413531)
 
 ## Lean proved Riemann's return
 
