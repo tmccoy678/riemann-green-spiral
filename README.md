@@ -81,6 +81,45 @@ the current 220-sample window, and the A→B→C return witnesses together.
 
 ![Riemann rolling numerical view](artifacts/Riemann_Rolling_Numbers.gif)
 
+## Finite channel exploration
+
+The channel review keeps the result finite and allows the field to end. A
+33×33 seed neighborhood around `(80,20,6)` produced **1,089 streamlines** and
+**963,542 stored points**. A dependency-free Rust verifier reads every row and
+finds:
+
+- **313** seeds satisfy the frozen sampled-return rule;
+- **305** paths enter 0.3 units of Riemann's recorded channel;
+- **312** paths enter its two-unit neighborhood;
+- all **1,089** recorded trajectories terminate at the lower-`y` field edge;
+- after the formal channel interval ends at sample 1770, Riemann continues for
+  **907 samples** and **139.575 arc units** before its own boundary exit.
+
+This is a basin-like geometric recurrence result. The streamlines are
+independent integrations through one fixed vector field; the result does not
+claim that one path transfers or absorbs energy from another.
+
+![Riemann neighborhood and field exit](artifacts/Path22_Field_Exit.gif)
+
+The GIF retains only a rolling display window and eventually releases an
+exited path. The complete trajectories remain in the TSV. No line is drawn
+beyond the measured field: post-field continuation, dissipation, and genuine
+disappearance remain unresolved and admissible.
+
+No boundary condition or exterior field is assumed. The Rust bridge rejects
+any coordinate outside the measured MATLAB box, and Lean assigns no exterior
+velocity. “Exit” therefore means only that the finite observation has ended;
+it is not silently replaced by reflection, periodic wrapping, absorption, or
+continued motion.
+
+`Riemann/Channel.lean` checks exact integer certificates for three successive
+returns, a nonzero sampled corridor velocity, the recorded minimum `z`, the
+lower-`y` boundary gap, and the closest other-path exclusion certificate. Rust
+binds those constants to the complete trajectory and velocity exports, rejects
+malformed or reordered data, recomputes every velocity magnitude, and performs
+the complete neighborhood search. Lean does not turn the finite certificates
+into an infinite convergence statement.
+
 ## What Lean proves
 
 `Riemann/Return.lean` proves the quantified near-return above.
@@ -91,6 +130,12 @@ the current 220-sample window, and the A→B→C return witnesses together.
 - visible length is bounded by the configured rolling capacity;
 - the complete reached prefix remains visible until that capacity fills;
 - Riemann's three return witnesses fit inside one rendered window.
+
+`Riemann/Channel.lean` additionally proves the arithmetic certificates for
+three sampled returns, corridor non-stagnation, the recorded minimum-`z` and
+boundary facts, neighborhood counts, and an explicitly unresolved post-field
+outcome. The Rust audit supplies the complete-data binding for those compact
+certificates.
 
 GitHub CI verifies the artifact hashes, binds the witness to the exported
 samples, compiles the Lean project, audits its axioms, and runs the checked
@@ -106,7 +151,17 @@ field. `stream3` integrates seeds from the plane `x = 80`, with
 - `source/render_studio_scale.m` renders the nine-run scale and recovery map.
 - `source/render_riemann_numbers.m` renders the exact rolling numerical view.
 - `source/export_riemann_paths.m` exports round-trip double-precision samples.
+- `source/export_path22_flow.m` evaluates the original wind vector at every
+  preserved path-22 coordinate without re-integrating the path.
+- `source/explore_path22_neighborhood.m` generates the 33×33 neighborhood,
+  complete export, boundary summary, and rolling field-exit GIF.
 - `data/riemann_paths.tsv` preserves the 49 source trajectories.
+- `data/path22_flow.tsv` preserves the derived velocity profile.
+- `data/path22_neighborhood_0125.tsv` preserves all 963,542 neighborhood
+  samples; `data/path22_neighborhood_seeds.tsv` records every endpoint.
+- `data/path22_channel_receipt.txt` is the compact handoff for light machines.
+- `rust/path22-audit` is the dependency-free full-data verifier and mutation
+  test suite.
 - `MANIFEST.sha256` records the checked artifact hashes.
 
 Build the formalization with:
@@ -114,6 +169,8 @@ Build the formalization with:
 ```sh
 lake build
 lake exe riemann
+cargo run --release --manifest-path rust/path22-audit/Cargo.toml
+cargo test --release --manifest-path rust/path22-audit/Cargo.toml
 ```
 
 ## Meaning
