@@ -26,6 +26,14 @@ recorded. The Rust audits were not direct MATLAB inputs: they supplied the
 field/current experimental lineage and visual method from which the MATLAB
 Riemann experiment emerged.
 
+**Formal provenance (America/Chicago).** The first Lean source for Riemann was
+created on **2026-11-20 at 9:58:26 PM CST** and first built locally at
+**9:58:41 PM**. `Riemann/Return.lean` first passed its complete local build at
+**10:20:41 PM**. The dedicated repository's first full GitHub build and axiom
+audit completed at **10:23:32 PM**. Later review corrected the renderer from a
+prefix model to MATLAB's actual 220-sample rolling window while preserving the
+return witness.
+
 Path 22 begins at `(80, 20, 6)` in MATLAB's `wind` velocity field. It is the
 longest of 49 seeded trajectories, containing 2,677 of the run's 14,894 source
 samples. Its certified return is:
