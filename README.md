@@ -120,6 +120,34 @@ malformed or reordered data, recomputes every velocity magnitude, and performs
 the complete neighborhood search. Lean does not turn the finite certificates
 into an infinite convergence statement.
 
+## Spectral and Poincaré exploration
+
+An affine one-step operator fitted to the 594-transition channel has a complex
+pair with magnitude **1.000336** and a predominantly vertical real mode with
+magnitude **0.999248**. The pair rotates and expands slightly while the vertical
+mode contracts. Across the complete measured channel:
+
+- the path makes **7.905 rotations**;
+- the rotating plane contributes accumulated log-rate **+0.399540**;
+- the vertical mode contributes **−0.446737**;
+- their net is **−0.047197**;
+- the fitted determinant is **0.999921**.
+
+The vertical accumulated rate is therefore close to `−1/2` without selecting
+that value in advance. It is a finite, sample-normalized contraction rate—not
+the real part of a zeta zero.
+
+The interior Poincaré plane at `x = 111.820693` records **16 crossings** with
+strictly alternating direction. The positive and negative branches both move
+outward while every crossing descends in `z`. This independently matches the
+operator's slightly expanding rotating plane and contracting vertical mode.
+
+![Path 22 viewed inward from its original seed](artifacts/Path22_Seed_Eye.gif)
+
+The seed-eye rendering fixes the observer at the original `(80,20,6)` entry
+direction. It changes only the projection. It assigns no wave phase and no
+exterior continuation.
+
 ## What Lean proves
 
 `Riemann/Return.lean` proves the quantified near-return above.
@@ -136,6 +164,11 @@ three sampled returns, corridor non-stagnation, the recorded minimum-`z` and
 boundary facts, neighborhood counts, and an explicitly unresolved post-field
 outcome. The Rust audit supplies the complete-data binding for those compact
 certificates.
+
+`Riemann/Spectrum.lean` proves the compact spectral-balance and Poincaré
+certificates. Rust independently recomputes the affine residuals, matrix trace
+and determinant, characteristic-polynomial residuals, accumulated log-rates,
+and all sixteen crossings from the preserved trajectory.
 
 GitHub CI verifies the artifact hashes, binds the witness to the exported
 samples, compiles the Lean project, audits its axioms, and runs the checked
@@ -155,10 +188,17 @@ field. `stream3` integrates seeds from the plane `x = 80`, with
   preserved path-22 coordinate without re-integrating the path.
 - `source/explore_path22_neighborhood.m` generates the 33×33 neighborhood,
   complete export, boundary summary, and rolling field-exit GIF.
+- `source/analyze_path22_spectrum.m` fits the finite operators and exports the
+  spectral and Poincaré crossing tables.
+- `source/render_path22_seed_eye.m` renders the existing trajectories from the
+  original seed direction.
 - `data/riemann_paths.tsv` preserves the 49 source trajectories.
 - `data/path22_flow.tsv` preserves the derived velocity profile.
 - `data/path22_neighborhood_0125.tsv` preserves all 963,542 neighborhood
   samples; `data/path22_neighborhood_seeds.tsv` records every endpoint.
+- `data/path22_spectrum.tsv` and `data/path22_poincare.tsv` preserve the fitted
+  operator and interior return-section measurements.
+- `data/path22_spectrum_receipt.txt` is the compact spectral handoff.
 - `data/path22_channel_receipt.txt` is the compact handoff for light machines.
 - `rust/path22-audit` is the dependency-free full-data verifier and mutation
   test suite.

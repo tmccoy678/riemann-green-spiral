@@ -31,6 +31,8 @@ fn fixture(label: &str) -> Fixture {
         "path22_field_meta.tsv",
         "path22_neighborhood_0125.tsv",
         "path22_neighborhood_seeds.tsv",
+        "path22_spectrum.tsv",
+        "path22_poincare.tsv",
     ] {
         fs::copy(
             source_root().join("data").join(name),
@@ -185,4 +187,32 @@ fn exterior_sample_is_rejected() {
         })
     });
     assert_failure(run(&fixture.0), "outside measured field");
+}
+
+#[test]
+fn altered_spectral_determinant_is_rejected() {
+    let fixture = fixture("spectrum");
+    let path = fixture.0.join("data/path22_spectrum.tsv");
+    rewrite_line(&path, |line| {
+        let mut fields = line.split('\t').collect::<Vec<_>>();
+        (fields.first() == Some(&"channel")).then(|| {
+            fields[6] = "0";
+            fields.join("\t")
+        })
+    });
+    assert_failure(run(&fixture.0), "trace or determinant mismatch");
+}
+
+#[test]
+fn nonalternating_poincare_crossing_is_rejected() {
+    let fixture = fixture("poincare");
+    let path = fixture.0.join("data/path22_poincare.tsv");
+    rewrite_line(&path, |line| {
+        let mut fields = line.split('\t').collect::<Vec<_>>();
+        (fields.first() == Some(&"2")).then(|| {
+            fields[2] = "1";
+            fields.join("\t")
+        })
+    });
+    assert_failure(run(&fixture.0), "orientation does not alternate");
 }

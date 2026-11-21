@@ -1,0 +1,26 @@
+RIEMANN PATH 22 SPECTRAL AND POINCARE EXPLORATION
+date=2026-11-21
+channel_start=1176
+channel_end=1770
+channel_transitions=594
+affine_rmse=0.027631729968146383
+spiral_magnitude=1.000336369407925
+spiral_angle_per_sample=0.083617804281566094
+channel_rotations=7.9050630078497255
+vertical_magnitude=0.99924820078887877
+vertical_participation=0.98568136573257148
+determinant=0.9999205468995348
+plane_log_total=0.39953966392134332
+vertical_log_total=-0.44673668059732341
+net_log_total=-0.047197016675980086
+poincare_crossings=16
+poincare_orientation=alternating
+poincare_radial_direction=expanding
+poincare_z_direction=descending
+boundary_assumptions=none
+exterior_velocity=unassigned
+
+The finite affine fit contains a slightly expanding complex plane and a
+contracting predominantly vertical real mode. Rust recomputes the operator
+residuals and all crossing properties from the preserved path. Lean checks the
+quantized balance and Poincare certificates.

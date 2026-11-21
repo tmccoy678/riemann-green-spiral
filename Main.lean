@@ -10,3 +10,5 @@ def main : IO Unit := do
   IO.println "Lean-checked neighborhood certificate: 313 returns and 312 two-unit channel entries among 1,089 seeds."
   IO.println "Boundary assumptions: none; exterior velocity is unassigned."
   IO.println "Post-field outcome: unresolved; continuation and disappearance remain admissible."
+  IO.println "Lean-checked spectrum: rotating-plane expansion balances vertical contraction near -1/2."
+  IO.println "Lean-checked Poincare section: sixteen alternating crossings expand outward while descending in z."
