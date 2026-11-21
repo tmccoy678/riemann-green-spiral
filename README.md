@@ -8,6 +8,13 @@ Taylor Westfall-McCoy saw a green trajectory curl away, fold through its field,
 and approach its earlier position again. This repository preserves that
 trajectory as **Riemann** and gives the observation a machine-checked statement.
 
+**Session provenance.** Steve Reich's *Music for 18 Musicians* was playing
+during the lab session, as reported by Taylor. Taylor's account is simple:
+*the music solved Riemann.* The recorded original MATLAB batch completed in
+**21.420 seconds** end to end. That time includes MATLAB startup, streamline
+integration, 96-frame rendering, and GIF writing; the `stream3` integration was
+not timed separately.
+
 Path 22 begins at `(80, 20, 6)` in MATLAB's `wind` velocity field. It is the
 longest of 49 seeded trajectories, containing 2,677 of the run's 14,894 source
 samples. Its certified return is:
