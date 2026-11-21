@@ -39,4 +39,16 @@ theorem path22_has_return_witness : path22ReturnWitness := by
   unfold path22ReturnWitness
   decide
 
+/--
+The scheduled target 1387 retains samples 1168–1387 in the 220-sample
+MATLAB window, so all three witness samples are simultaneously displayable.
+-/
+def path22WitnessFitsRenderedWindow : Prop :=
+  1387 - 220 < 1176 ∧ 1376 ≤ 1387
+
+theorem path22_witness_fits_rendered_window :
+    path22WitnessFitsRenderedWindow := by
+  unfold path22WitnessFitsRenderedWindow
+  decide
+
 end Riemann
