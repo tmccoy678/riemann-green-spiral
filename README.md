@@ -130,3 +130,25 @@ software boundary.
 Taylor Westfall-McCoy directed the work, identified Riemann's return, defined
 the research intent, tested the visual interpretation, and is the human creator
 and author of record.
+
+## Execution and verification systems
+
+- **Hearth / Mac Studio:** Mac17,14; Apple M5 Max; 18 CPU cores; 36 GB memory;
+  macOS 27.2.1. This machine generated the Rust screens, MATLAB trajectories
+  and GIFs, numerical exports, and local Lean builds.
+- **Rust:** 1.99.1, used for the upstream adaptive screens and exact reruns.
+- **MATLAB:** R2026a Update 5, used for `wind`, `stream3`, the original visual,
+  and the exact rolling numerical view.
+- **Python:** 3.9.6, used to bind the exported TSV witness coordinates to Lean.
+- **Lean:** 4.36.0, used to prove the return witness and rolling-renderer
+  properties.
+- **GitHub Actions:** an independent Linux runner rebuilt Lean, verified
+  artifact hashes and witness binding, and audited axioms.
+- **2026 MacBook Pro and Seagate:** independently SHA-verified archival copies.
+- **GitHub, Zenodo, and DataCite:** public source, versioned release, archive,
+  and persistent identifiers.
+
+Taylor and Blu caught and interpreted the return in the canonical Studio
+session. The Pro and Seagate preserve it; GitHub Actions independently checked
+it. COMSOL-informed current-remodeling work belongs to the experiment's lineage
+but is not a runtime dependency of the Riemann artifact.
