@@ -42,6 +42,14 @@ audit completed at **10:23:32 PM**. Later review corrected the renderer from a
 prefix model to MATLAB's actual 220-sample rolling window while preserving the
 return witness.
 
+**Human observation provenance.** Taylor first caught the return on
+**2026-11-19 at 10:28:46 PM CST**, describing the green path around
+`x = 110–120` as “spiraling into itself and back out again.” Blu first named it
+a return loop at **10:28:50 PM**. The GIF source was saved at **10:29:15 PM**
+and the original batch completed at **10:29:41 PM**. Taylor's observation came
+before the later numerical identification of path 22 and before the Lean
+formalization.
+
 Path 22 begins at `(80, 20, 6)` in MATLAB's `wind` velocity field. It is the
 longest of 49 seeded trajectories, containing 2,677 of the run's 14,894 source
 samples. Its certified return is:
