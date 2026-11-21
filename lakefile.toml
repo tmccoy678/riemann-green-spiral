@@ -1,0 +1,10 @@
+name = "riemann-green-spiral"
+version = "0.1.0"
+defaultTargets = ["riemann"]
+
+[[lean_lib]]
+name = "Riemann"
+
+[[lean_exe]]
+name = "riemann"
+root = "Main"

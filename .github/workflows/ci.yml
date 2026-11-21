@@ -1,0 +1,25 @@
+name: Lean and provenance
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify preserved artifacts
+        run: sha256sum --check MANIFEST.sha256
+      - name: Verify path 22 witness against exported samples
+        run: python3 scripts/verify_witness.py
+      - uses: leanprover/lean-action@v1
+        with:
+          build: true
+          test: false
+          axiom-audit: true
+      - name: Run checked summary
+        run: lake exe riemann
