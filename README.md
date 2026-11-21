@@ -15,6 +15,17 @@ during the lab session, as reported by Taylor. Taylor's account is simple:
 integration, 96-frame rendering, and GIF writing; the `stream3` integration was
 not timed separately.
 
+The visible result followed a much larger local computational session on
+Taylor's Mac Studio. Nine complete Rust adaptive screens generated
+**15,552,000 choices** and **38,621,335,765 bytes** of choice-by-choice audit
+records. Their recorded engine times sum to **31.726 minutes**; that is
+aggregate engine time because swarm runs could overlap, rather than a single
+wall-clock measurement. Seven audits survive in a hashed Seagate recovery;
+the final two were intentionally culled after their hashes and receipts were
+recorded. The Rust audits were not direct MATLAB inputs: they supplied the
+field/current experimental lineage and visual method from which the MATLAB
+Riemann experiment emerged.
+
 Path 22 begins at `(80, 20, 6)` in MATLAB's `wind` velocity field. It is the
 longest of 49 seeded trajectories, containing 2,677 of the run's 14,894 source
 samples. Its certified return is:
