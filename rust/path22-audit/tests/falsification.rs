@@ -33,6 +33,7 @@ fn fixture(label: &str) -> Fixture {
         "path22_neighborhood_seeds.tsv",
         "path22_spectrum.tsv",
         "path22_poincare.tsv",
+        "wind_field_zeros.tsv",
     ] {
         fs::copy(
             source_root().join("data").join(name),
@@ -215,4 +216,46 @@ fn nonalternating_poincare_crossing_is_rejected() {
         })
     });
     assert_failure(run(&fixture.0), "orientation does not alternate");
+}
+
+#[test]
+fn altered_field_zero_is_rejected() {
+    let fixture = fixture("field-zero");
+    let path = fixture.0.join("data/wind_field_zeros.tsv");
+    rewrite_line(&path, |line| {
+        let mut fields = line.split('\t').collect::<Vec<_>>();
+        (fields.first() == Some(&"8")).then(|| {
+            fields[1] = "87";
+            fields.join("\t")
+        })
+    });
+    assert_failure(run(&fixture.0), "local coordinate mismatch");
+}
+
+#[test]
+fn altered_field_corner_is_rejected() {
+    let fixture = fixture("field-corner");
+    let path = fixture.0.join("data/wind_field_zeros.tsv");
+    rewrite_line(&path, |line| {
+        let mut fields = line.split('\t').collect::<Vec<_>>();
+        (fields.first() == Some(&"3")).then(|| {
+            fields[35] = "100";
+            fields.join("\t")
+        })
+    });
+    assert_failure(run(&fixture.0), "trilinear residual mismatch");
+}
+
+#[test]
+fn altered_spiral_classification_is_rejected() {
+    let fixture = fixture("spiral-classification");
+    let path = fixture.0.join("data/wind_field_zeros.tsv");
+    rewrite_line(&path, |line| {
+        let mut fields = line.split('\t').collect::<Vec<_>>();
+        (fields.first() == Some(&"3")).then(|| {
+            fields[17] = "0";
+            fields.join("\t")
+        })
+    });
+    assert_failure(run(&fixture.0), "spiral classification mismatch");
 }
