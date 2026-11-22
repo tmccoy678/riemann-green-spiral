@@ -43,3 +43,10 @@ and frozen criterion are in `data/local_evanescence.tsv` and
 Reproduce the width-growth test with `source/test_gaussian_width_growth.m`.
 The three-point table and receipt are in `data/gaussian_width_growth.tsv` and
 `data/gaussian_width_growth_receipt.txt`.
+
+Run the dependency-free independent bridge with
+`cargo run --release --manifest-path rust/evanescence-audit/Cargo.toml`. It
+reparses both committed tables, recomputes the frozen criteria and width-growth
+fit, then emits the compact integer certificate recorded in
+`data/evanescence_rust_receipt.txt`. Its focused mutation checks run with
+`cargo test --release --manifest-path rust/evanescence-audit/Cargo.toml`.
