@@ -1,0 +1,10 @@
+LOCAL_EVANESCENCE_CYCLES_7_8_9
+sections=3
+rays_per_section=4
+evanescent_rays=3
+total_rays=12
+median_kappa=0.65103786465169922
+median_exponential_r2=0.98378786007229824
+median_gaussian_r2=0.9550012174484761
+minimum_mean_tangential_alignment=0.043435463870113294
+criterion=kappa_positive,exponential_r2_at_least_0.95,monotonic_fraction_at_least_0.8,mean_tangential_alignment_at_least_0.8
