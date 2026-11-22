@@ -1,0 +1,13 @@
+COMSOL_EVANESCENCE_DIFFUSION_GATE
+comsol_version=COMSOL Multiphysics 6.3 (Build: 638)
+maxwell_physics=source_free_scalar_helmholtz
+maxwell_cycles=7,8,9
+maxwell_pass=1
+maxwell_max_relative_kappa_error=6.3234798003636483e-06
+maxwell_min_exponential_r2=0.99999999945432161
+maxwell_min_forward_flux_fraction=1
+diffusion_slope_per_arc=0.0047995437724467627
+diffusion_r_squared=0.99999990350666768
+diffusion_max_relative_width_error=0.0075963974575378977
+diffusion_pass=1
+acceptance=1

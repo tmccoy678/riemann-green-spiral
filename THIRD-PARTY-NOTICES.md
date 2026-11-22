@@ -20,6 +20,14 @@ MATLAB and MathWorks are trademarks of The MathWorks, Inc. Their mention does
 not imply endorsement. Users are responsible for operating MATLAB under their
 own applicable license.
 
-The repository's MIT license applies to Taylor Westfall-McCoy's original code
-and Lean formalization; it does not relicense MATLAB or the omitted `wind.mat`
-input dataset.
+The local evanescent-diffusive realization additionally requires separately
+licensed COMSOL Multiphysics 6.3 and LiveLink for MATLAB to regenerate. COMSOL
+software, binaries, application libraries, and licensed examples are not
+included. The committed TSV files are numerical outputs of Taylor and Blu's
+original compact PDE model; Rust and Lean verify their public handoff without
+requiring COMSOL at runtime. COMSOL is a trademark of COMSOL AB, and its mention
+does not imply endorsement.
+
+The repository's MIT license applies to Taylor Westfall-McCoy's original code,
+model script, and Lean formalization; it does not relicense MATLAB, COMSOL, or
+the omitted `wind.mat` input dataset.

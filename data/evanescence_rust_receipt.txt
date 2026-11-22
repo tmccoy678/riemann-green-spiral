@@ -11,3 +11,12 @@ arc_micro=[0, 12530841, 25914549]
 slope_pico=4796187890 regression_r2_nano=994909699
 criterion_nano=kappa>0 exp_r2>=950000000 monotonic>=800000000 alignment>=800000000
 growth_criterion=slope_pico>0 regression_r2_nano>=950000000
+comsol_kappa_nano=[667732243, 629301156, 586463719]
+comsol_exponential_r2_nano=[999999999, 999999999, 999999999]
+comsol_forward_flux_nano=[1000000000, 1000000000, 1000000000]
+comsol_kappa_error_nano=[6323, 6287, 6250]
+comsol_gaussian_q_nano=[502619550, 473949663, 446760869]
+comsol_width_nano=[994788206, 1054964353, 1119166951]
+comsol_width_error_nano=[94385, 7596397, 313287]
+comsol_slope_pico=4799543772 comsol_regression_r2_nano=999999904
+comsol_criterion_nano=exp_r2>=990000000 forward_flux>=800000000 kappa_error<=10000000 width_error<=10000000

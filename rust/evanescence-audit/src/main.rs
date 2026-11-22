@@ -26,6 +26,29 @@ struct Width {
     prediction: f64,
 }
 
+#[derive(Clone, Copy, Debug)]
+struct ComsolRay {
+    cycle: usize,
+    kappa: f64,
+    exponential_r2: f64,
+    monotonic_fraction: f64,
+    forward_flux_fraction: f64,
+    matlab_kappa: f64,
+    relative_error: f64,
+    pass: bool,
+}
+
+#[derive(Clone, Copy, Debug)]
+struct ComsolWidth {
+    cycle: usize,
+    arc: f64,
+    gaussian_q: f64,
+    width_squared: f64,
+    matlab_width_squared: f64,
+    relative_error: f64,
+    within_one_percent: bool,
+}
+
 fn finite(text: &str, context: &str) -> Result<f64, String> {
     let value = text
         .parse::<f64>()
@@ -111,6 +134,73 @@ fn read_widths(path: &Path) -> Result<Vec<Width>, String> {
     (rows.len() == 3)
         .then_some(rows)
         .ok_or_else(|| "width cardinality mismatch".to_owned())
+}
+
+fn binary_flag(text: &str, context: &str) -> Result<bool, String> {
+    match text {
+        "0" => Ok(false),
+        "1" => Ok(true),
+        _ => Err(format!("{context}: invalid binary flag")),
+    }
+}
+
+fn read_comsol_rays(path: &Path) -> Result<Vec<ComsolRay>, String> {
+    let text = fs::read_to_string(path).map_err(|error| format!("{}: {error}", path.display()))?;
+    let mut lines = text.lines();
+    let header = lines
+        .next()
+        .ok_or_else(|| "empty COMSOL ray table".to_owned())?;
+    let expected = "cycle\tcomsol_kappa\texponential_r2\tmonotonic_fraction\tforward_flux_fraction\tmatlab_kappa\trelative_error\tpass";
+    if header != expected {
+        return Err("unexpected COMSOL ray header".to_owned());
+    }
+    let mut rows = Vec::new();
+    for (offset, line) in lines.enumerate() {
+        let context = format!("{}:{}", path.display(), offset + 2);
+        let f = split_exact(line, 8, &context)?;
+        rows.push(ComsolRay {
+            cycle: positive_usize(f[0], &context)?,
+            kappa: finite(f[1], &context)?,
+            exponential_r2: finite(f[2], &context)?,
+            monotonic_fraction: finite(f[3], &context)?,
+            forward_flux_fraction: finite(f[4], &context)?,
+            matlab_kappa: finite(f[5], &context)?,
+            relative_error: finite(f[6], &context)?,
+            pass: binary_flag(f[7], &context)?,
+        });
+    }
+    (rows.len() == 3)
+        .then_some(rows)
+        .ok_or_else(|| "COMSOL ray cardinality mismatch".to_owned())
+}
+
+fn read_comsol_widths(path: &Path) -> Result<Vec<ComsolWidth>, String> {
+    let text = fs::read_to_string(path).map_err(|error| format!("{}: {error}", path.display()))?;
+    let mut lines = text.lines();
+    let header = lines
+        .next()
+        .ok_or_else(|| "empty COMSOL width table".to_owned())?;
+    let expected = "cycle\tarc_from_cycle_7\tcomsol_gaussian_q\tcomsol_width_squared\tmatlab_width_squared\trelative_error\twithin_one_percent";
+    if header != expected {
+        return Err("unexpected COMSOL width header".to_owned());
+    }
+    let mut rows = Vec::new();
+    for (offset, line) in lines.enumerate() {
+        let context = format!("{}:{}", path.display(), offset + 2);
+        let f = split_exact(line, 7, &context)?;
+        rows.push(ComsolWidth {
+            cycle: positive_usize(f[0], &context)?,
+            arc: finite(f[1], &context)?,
+            gaussian_q: finite(f[2], &context)?,
+            width_squared: finite(f[3], &context)?,
+            matlab_width_squared: finite(f[4], &context)?,
+            relative_error: finite(f[5], &context)?,
+            within_one_percent: binary_flag(f[6], &context)?,
+        });
+    }
+    (rows.len() == 3)
+        .then_some(rows)
+        .ok_or_else(|| "COMSOL width cardinality mismatch".to_owned())
 }
 
 fn scaled(value: f64, factor: f64) -> i64 {
@@ -214,6 +304,63 @@ fn run(root: &Path) -> Result<(), String> {
         return Err("diffusion-compatibility criterion failed".to_owned());
     }
 
+    let comsol_rays = read_comsol_rays(&root.join("data/comsol_evanescence.tsv"))?;
+    for index in 0..3 {
+        let row = comsol_rays[index];
+        let matlab = selected[index];
+        require_equal(row.cycle, matlab.cycle, "COMSOL cycle binding")?;
+        if (row.matlab_kappa - matlab.kappa).abs() > 1.0e-14 {
+            return Err("COMSOL MATLAB-kappa binding mismatch".to_owned());
+        }
+        let relative_error = (row.kappa - matlab.kappa).abs() / matlab.kappa;
+        if (row.relative_error - relative_error).abs() > 1.0e-12 {
+            return Err("COMSOL kappa-error mismatch".to_owned());
+        }
+        let criterion = row.kappa > 0.0
+            && row.exponential_r2 >= 0.99
+            && row.monotonic_fraction >= 0.8
+            && row.forward_flux_fraction >= 0.8
+            && row.relative_error <= 0.01;
+        if criterion != row.pass || !row.pass {
+            return Err("COMSOL Maxwell criterion mismatch".to_owned());
+        }
+    }
+
+    let comsol_widths = read_comsol_widths(&root.join("data/comsol_gaussian_width_growth.tsv"))?;
+    for index in 0..3 {
+        let row = comsol_widths[index];
+        let matlab = widths[index];
+        require_equal(row.cycle, matlab.cycle, "COMSOL width-cycle binding")?;
+        if (row.arc - matlab.arc).abs() > 1.0e-12 {
+            return Err("COMSOL arc binding mismatch".to_owned());
+        }
+        if (row.matlab_width_squared - matlab.width_squared).abs() > 1.0e-12 {
+            return Err("COMSOL MATLAB-width binding mismatch".to_owned());
+        }
+        let recomputed = 1.0 / (2.0 * row.gaussian_q);
+        if (row.width_squared - recomputed).abs() > 1.0e-12 {
+            return Err("COMSOL Gaussian-width mismatch".to_owned());
+        }
+        let relative_error =
+            (row.width_squared - matlab.width_squared).abs() / matlab.width_squared;
+        if (row.relative_error - relative_error).abs() > 1.0e-12 {
+            return Err("COMSOL width-error mismatch".to_owned());
+        }
+        let criterion = row.relative_error <= 0.01;
+        if criterion != row.within_one_percent || !row.within_one_percent {
+            return Err("COMSOL width criterion mismatch".to_owned());
+        }
+    }
+    let comsol_x = comsol_widths.iter().map(|row| row.arc).collect::<Vec<_>>();
+    let comsol_y = comsol_widths
+        .iter()
+        .map(|row| row.width_squared)
+        .collect::<Vec<_>>();
+    let (comsol_slope, _, comsol_r_squared) = linear_fit(&comsol_x, &comsol_y);
+    if comsol_slope <= 0.0 || comsol_r_squared < 0.99 {
+        return Err("COMSOL diffusion criterion failed".to_owned());
+    }
+
     let expected_kappa = [667_736_465, 629_305_112, 586_467_384];
     let expected_exp_r2 = [980_568_819, 970_250_982, 963_970_165];
     let expected_gauss_q = [502_666_989, 477_549_973, 446_900_833];
@@ -271,6 +418,61 @@ fn run(root: &Path) -> Result<(), String> {
         "regression-r2 certificate",
     )?;
 
+    let expected_comsol_kappa = [667_732_243, 629_301_156, 586_463_719];
+    let expected_comsol_exp_r2 = [999_999_999, 999_999_999, 999_999_999];
+    let expected_comsol_forward = [1_000_000_000, 1_000_000_000, 1_000_000_000];
+    let expected_comsol_kappa_error = [6_323, 6_287, 6_250];
+    let expected_comsol_q = [502_619_550, 473_949_663, 446_760_869];
+    let expected_comsol_width = [994_788_206, 1_054_964_353, 1_119_166_951];
+    let expected_comsol_width_error = [94_385, 7_596_397, 313_287];
+    for index in 0..3 {
+        require_equal(
+            scaled(comsol_rays[index].kappa, 1.0e9),
+            expected_comsol_kappa[index],
+            "COMSOL kappa certificate",
+        )?;
+        require_equal(
+            scaled(comsol_rays[index].exponential_r2, 1.0e9),
+            expected_comsol_exp_r2[index],
+            "COMSOL exponential-r2 certificate",
+        )?;
+        require_equal(
+            scaled(comsol_rays[index].forward_flux_fraction, 1.0e9),
+            expected_comsol_forward[index],
+            "COMSOL forward-flux certificate",
+        )?;
+        require_equal(
+            scaled(comsol_rays[index].relative_error, 1.0e9),
+            expected_comsol_kappa_error[index],
+            "COMSOL kappa-error certificate",
+        )?;
+        require_equal(
+            scaled(comsol_widths[index].gaussian_q, 1.0e9),
+            expected_comsol_q[index],
+            "COMSOL Gaussian-q certificate",
+        )?;
+        require_equal(
+            scaled(comsol_widths[index].width_squared, 1.0e9),
+            expected_comsol_width[index],
+            "COMSOL width certificate",
+        )?;
+        require_equal(
+            scaled(comsol_widths[index].relative_error, 1.0e9),
+            expected_comsol_width_error[index],
+            "COMSOL width-error certificate",
+        )?;
+    }
+    require_equal(
+        scaled(comsol_slope, 1.0e12),
+        4_799_543_772,
+        "COMSOL slope certificate",
+    )?;
+    require_equal(
+        scaled(comsol_r_squared, 1.0e9),
+        999_999_904,
+        "COMSOL regression-r2 certificate",
+    )?;
+
     println!("EVANESCENCE_AUDIT_VERIFIED");
     println!("cycles=7,8,9 side=normal_2_negative");
     println!("kappa_nano={expected_kappa:?}");
@@ -288,6 +490,21 @@ fn run(root: &Path) -> Result<(), String> {
     );
     println!("criterion_nano=kappa>0 exp_r2>=950000000 monotonic>=800000000 alignment>=800000000");
     println!("growth_criterion=slope_pico>0 regression_r2_nano>=950000000");
+    println!("comsol_kappa_nano={expected_comsol_kappa:?}");
+    println!("comsol_exponential_r2_nano={expected_comsol_exp_r2:?}");
+    println!("comsol_forward_flux_nano={expected_comsol_forward:?}");
+    println!("comsol_kappa_error_nano={expected_comsol_kappa_error:?}");
+    println!("comsol_gaussian_q_nano={expected_comsol_q:?}");
+    println!("comsol_width_nano={expected_comsol_width:?}");
+    println!("comsol_width_error_nano={expected_comsol_width_error:?}");
+    println!(
+        "comsol_slope_pico={} comsol_regression_r2_nano={}",
+        scaled(comsol_slope, 1.0e12),
+        scaled(comsol_r_squared, 1.0e9)
+    );
+    println!(
+        "comsol_criterion_nano=exp_r2>=990000000 forward_flux>=800000000 kappa_error<=10000000 width_error<=10000000"
+    );
     Ok(())
 }
 

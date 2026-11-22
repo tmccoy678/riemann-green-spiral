@@ -22,6 +22,10 @@ jobs:
         run: cargo run --release --manifest-path rust/path22-audit/Cargo.toml
       - name: Falsification tests for the Rust data bridge
         run: cargo test --release --manifest-path rust/path22-audit/Cargo.toml
+      - name: Audit MATLAB and COMSOL evanescence data in Rust
+        run: cargo run --release --manifest-path rust/evanescence-audit/Cargo.toml
+      - name: Falsification tests for the evanescence bridge
+        run: cargo test --release --manifest-path rust/evanescence-audit/Cargo.toml
       - uses: leanprover/lean-action@v1
         with:
           build: true

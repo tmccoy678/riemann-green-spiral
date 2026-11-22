@@ -205,6 +205,23 @@ channel result](PHOTON.md).
 
 ![Source-free Maxwell realization](artifacts/Source_Free_Maxwell_Riemann.png)
 
+## Local evanescent-diffusive realization
+
+At return cycles 7–9, the same transverse side supports positive decay,
+monotone amplitude loss, and forward tangential energy flow. Its Gaussian width
+squared grows linearly with Riemann's recorded arc-length: MATLAB measures slope
+`0.00479619` with `R^2 = 0.994910`.
+
+COMSOL Multiphysics 6.3 independently solves the frozen local realization. Its
+source-free scalar Helmholtz fields reproduce the three decay constants within
+`6.33×10⁻⁶` relative error with wholly forward flux. Its diffusion realization
+reproduces all three measured widths within 1% and gives positive width² slope
+`0.00479954` with `R^2 = 0.999999904`.
+
+Rust binds the complete MATLAB and COMSOL exports and rejects altered field,
+alignment, arc-length, and COMSOL flux records. Lean proves the resulting
+finite arithmetic certificate. [Read the local realization](EVANESCENCE.md).
+
 ## What Lean proves
 
 `Riemann/Return.lean` proves the quantified near-return above.
@@ -239,6 +256,10 @@ construction target.
 residual, alignment, forward-flow, and grid-convergence certificate. The Python
 bridge binds its integers to the hashed MATLAB receipts.
 
+`Riemann/Evanescence.lean` proves the shared MATLAB–COMSOL decay, forward-flow,
+Gaussian-width, and positive width-growth certificate. The dependency-free
+Rust bridge binds its integers to all four committed numerical tables.
+
 GitHub CI verifies the artifact hashes, binds the witness to the exported
 samples, compiles the Lean project, audits its axioms, and runs the checked
 summary.
@@ -269,6 +290,10 @@ field. `stream3` integrates seeds from the plane `x = 80`, with
 - `source/test_source_free_maxwell_field.m` constructs and evolves the vacuum
   Maxwell realization; `source/test_maxwell_controls.m` runs convergence and
   path controls.
+- `source/test_local_evanescence.m` and
+  `source/test_gaussian_width_growth.m` measure the local MATLAB realization;
+  `source/comsol_evanescence_gate.m` regenerates its COMSOL realization through
+  LiveLink.
 - `source/render_path22_seed_eye.m` renders the existing trajectories from the
   original seed direction.
 - `data/riemann_paths.tsv` preserves the 49 source trajectories.
@@ -287,6 +312,8 @@ field. `stream3` integrates seeds from the plane `x = 80`, with
 - `data/path22_channel_receipt.txt` is the compact handoff for light machines.
 - `rust/path22-audit` is the dependency-free full-data verifier and mutation
   test suite.
+- `rust/evanescence-audit` independently binds the MATLAB and COMSOL local
+  realization tables and emits the integers checked by Lean.
 - `MANIFEST.sha256` records the checked artifact hashes.
 
 Build the formalization with:
@@ -296,6 +323,8 @@ lake build
 lake exe riemann
 cargo run --release --manifest-path rust/path22-audit/Cargo.toml
 cargo test --release --manifest-path rust/path22-audit/Cargo.toml
+cargo run --release --manifest-path rust/evanescence-audit/Cargo.toml
+cargo test --release --manifest-path rust/evanescence-audit/Cargo.toml
 ```
 
 ## Meaning
@@ -336,6 +365,8 @@ and author of record.
 - **Rust:** 1.99.1, used for the upstream adaptive screens and exact reruns.
 - **MATLAB:** R2026a Update 5, used for `wind`, `stream3`, the original visual,
   and the exact rolling numerical view.
+- **COMSOL Multiphysics:** 6.3 build 638, used for the independent local
+  source-free Helmholtz and diffusion realizations.
 - **Python:** 3.9.6, used to bind the exported TSV witness coordinates to Lean.
 - **Lean:** 4.36.0, used to prove the return witness and rolling-renderer
   properties.
@@ -347,5 +378,6 @@ and author of record.
 
 Taylor and Blu caught and interpreted the return in the canonical Studio
 session. The Pro and Seagate preserve it; GitHub Actions independently checked
-it. COMSOL-informed current-remodeling work belongs to the experiment's lineage
-but is not a runtime dependency of the Riemann artifact.
+it. COMSOL is a regeneration dependency only for the local evanescent–diffusive
+tables; Rust and Lean verify their committed public handoff without requiring a
+COMSOL license.

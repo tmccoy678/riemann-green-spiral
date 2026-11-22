@@ -15,3 +15,4 @@ def main : IO Unit := do
   IO.println "Lean-checked null atlas: nineteen zeros, including nine spiral zeros, remain distinct from path 22."
   IO.println "Lean-checked bridge schema: stepwise intertwinement carries every finite return-cocycle evolution."
   IO.println "Lean-checked photon channel: focusing, caustic folds, source-free Maxwell residuals, and grid convergence."
+  IO.println "Lean-checked local channel: MATLAB and COMSOL agree on one-sided evanescence and diffusive Gaussian widening."
