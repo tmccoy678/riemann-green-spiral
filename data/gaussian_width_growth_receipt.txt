@@ -1,0 +1,7 @@
+GAUSSIAN_WIDTH_GROWTH_CYCLES_7_8_9
+slope_per_arc=0.0047961878899786502
+intercept=0.99204343058260747
+r_squared=0.99490969895185499
+positive_linear_growth=1
+diffusion_compatible=1
+criterion=positive_slope_and_r_squared_at_least_0.95
