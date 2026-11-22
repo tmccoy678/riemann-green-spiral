@@ -1,0 +1,13 @@
+PHOTON_NEIGHBOR_BUNDLE
+seeds=511,512,545,544
+plane_x=111.82069301377661
+positive_crossing_cycles=14
+reference_area=2.3475487864743627e-06
+minimum_area_cycle=8
+minimum_area=4.079445403704085e-08
+maximum_projected_density_multiplier=57.545782677783066
+maximum_flux_density_multiplier=57.653219877708224
+maximum_local_maxwell_residual=1.4273599921707572e-14
+local_null_field_poynting_compatibility=1
+orientation_flips=3
+interpretation=Measured neighboring streamlines provide a clock-free transverse ray-bundle test.
