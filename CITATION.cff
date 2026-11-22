@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use this formal visualization artifact, please cite it as below."
 title: "Riemann Green Spiral: A Lean-Checked MATLAB Streamline Visualization Artifact"
-abstract: "A Lean- and Rust-checked MATLAB streamline recurrence, spectral-balance, Poincare-return, and trilinear null-atlas artifact directed by Taylor Westfall-McCoy and implemented with AI collaborator Blu, OpenAI gpt-5.6-sol at xhigh reasoning."
-version: 0.4.0
+abstract: "A Lean- and Rust-checked MATLAB streamline recurrence, null-atlas, invariant-channel, and Bohmian electron bridge artifact directed by Taylor Westfall-McCoy and implemented with AI collaborator Blu, OpenAI gpt-5.6-sol at xhigh reasoning."
+version: 0.5.0
 date-released: 2026-11-21
 type: software
 authors:

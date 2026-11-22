@@ -166,6 +166,26 @@ from its cell's eight corner vectors, verifies all residuals below `10⁻⁸`, a
 checks each eigenvalue classification and path distance. Lean checks the
 published counts, identities, and distance ordering.
 
+## Invariant-channel bridge
+
+The return structure is concentrated along Riemann: its first certified arc
+ranks in the best **3.16%** of 190 comparable windows, and path 22 supplies 16
+of the 20 most reciprocal windows. A direct identification of its fitted
+eigenvalue with a transformed zeta zero was tested once and rejected.
+
+A published three-mode Bohmian electron model was then reproduced independently.
+It forms a moving wavefunction node, a saddle X-point, and an invariant manifold
+joining the spiral. The analogy is geometric, not an identification of the wind
+field as quantum physics.
+
+Lean proves the exact critical-line/unit-circle equivalence and the surviving
+bridge schema `J_(n+1) A_n = B_n J_n`: stepwise intertwinement carries every
+finite evolution of a time-dependent return cocycle. The concrete
+density-weighted Mellin map `J` remains open. [Read the complete bridge and its
+falsification record](BRIDGE.md).
+
+![One electron guided by three modes](artifacts/Bohmian_Electron_Node_X_Bridge.png)
+
 ## What Lean proves
 
 `Riemann/Return.lean` proves the quantified near-return above.
@@ -191,6 +211,11 @@ and all sixteen crossings from the preserved trajectory.
 `Riemann/Nulls.lean` proves the compact null-atlas count and distance
 certificates. Rust binds those constants to all 19 exported field zeros.
 
+`Riemann/Bridge.lean` proves the critical-line/unit-circle arithmetic
+certificate and the fixed-operator and nonautonomous-cocycle intertwining
+theorems. It does not assume that the required physical/arithmetic intertwiner
+exists.
+
 GitHub CI verifies the artifact hashes, binds the witness to the exported
 samples, compiles the Lean project, audits its axioms, and runs the checked
 summary.
@@ -213,6 +238,10 @@ field. `stream3` integrates seeds from the plane `x = 80`, with
   spectral and Poincaré crossing tables.
 - `source/find_wind_field_zeros.m` performs the deterministic bounded search
   and exports each zero's complete interpolation cell.
+- `source/explore_bohmian_electron_bridge.m` reproduces the independent
+  three-mode electron node/X-point snapshot.
+- `source/analyze_path22_variational_returns.m` computes the physical tangent
+  cocycle and checks Liouville's identity.
 - `source/render_path22_seed_eye.m` renders the existing trajectories from the
   original seed direction.
 - `data/riemann_paths.tsv` preserves the 49 source trajectories.
@@ -222,6 +251,8 @@ field. `stream3` integrates seeds from the plane `x = 80`, with
 - `data/path22_spectrum.tsv` and `data/path22_poincare.tsv` preserve the fitted
   operator and interior return-section measurements.
 - `data/wind_field_zeros.tsv` preserves the 19 cell-wise zero certificates.
+- `data/bridge_specificity_receipt.txt`, `data/channel_cayley_test.txt`, and
+  `data/path22_variational_receipt.txt` preserve the bridge tests and rejection.
 - `data/path22_spectrum_receipt.txt` is the compact spectral handoff.
 - `data/wind_field_zero_receipt.txt` is the compact null-atlas handoff.
 - `data/path22_channel_receipt.txt` is the compact handoff for light machines.
