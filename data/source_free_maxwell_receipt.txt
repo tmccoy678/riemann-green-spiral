@@ -1,0 +1,18 @@
+SOURCE_FREE_MAXWELL_FIELD
+domain=periodic_vacuum
+grid=40^3
+charges=0
+currents=0
+tube_sigma=0.45000000000000001
+evolution_time=0.20000000000000001
+gauss_electric_t0=1.099144100465272e-16
+gauss_magnetic_t0=9.8282892652812404e-17
+gauss_electric_t1=1.0068832567817015e-16
+gauss_magnetic_t1=9.8862682534893984e-17
+energy_relative_residual=3.8207500872345081e-15
+poynting_weighted_alignment_t0=0.99865964024759268
+poynting_positive_fraction_t0=1
+poynting_weighted_alignment_t1=0.91829250208420443
+poynting_positive_fraction_t1=1
+acceptance=1
+boundary=Constructed periodic source-free Maxwell field approximates the channel; it is not a unique inverse or proof of a one-photon state.

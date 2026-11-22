@@ -36,9 +36,31 @@ Liouville checks, but misses the stored endpoint by `3.03762` units. Its derived
 ## Boundary
 
 The accepted bundle result uses only recorded neighboring trajectories and a
-single crossing plane, so it does not need a photon clock. A global Maxwell test
-requires an explicit polarization field and time-dependent initial or boundary
-data. Those are not determined by the MATLAB wind geometry and remain open.
+single crossing plane, so it does not need a photon clock. A global Maxwell
+construction additionally requires polarization, phase, and boundary choices;
+the canonical choices below are explicit test inputs rather than quantities
+inferred from the MATLAB wind geometry.
+
+## Global source-free Maxwell construction
+
+A canonical test field was built in a `40^3` periodic vacuum box using one
+fixed transverse-polarization rule. Both fields were projected onto the
+divergence-free Fourier subspace and evolved with the exact source-free Maxwell
+mode solution. No charge or current density is present.
+
+- electric Gauss residual after evolution: `1.0069e-16`;
+- magnetic Gauss residual after evolution: `9.8863e-17`;
+- relative energy residual: `3.8208e-15`;
+- initial weighted Poynting alignment with Riemann: `0.998660`;
+- alignment after evolution time `0.2`: `0.918293`;
+- forward-aligned tube fraction: `1.0` at both measured times.
+
+This establishes existence of a global source-free classical Maxwell field
+whose Poynting flow approximates the channel and remains aligned under finite
+evolution. It is one construction, not a unique inverse and not by itself a
+proof of a normalized one-photon quantum state.
+
+![Source-free Maxwell field](artifacts/Source_Free_Maxwell_Riemann.png)
 
 Primary references for photon energy-flow trajectories:
 
