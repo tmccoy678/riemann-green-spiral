@@ -60,6 +60,20 @@ whose Poynting flow approximates the channel and remains aligned under finite
 evolution. It is one construction, not a unique inverse and not by itself a
 proof of a normalized one-photon quantum state.
 
+### Resolution and controls
+
+The full Riemann channel converges across `24^3`, `32^3`, and `40^3` grids. Its
+evolved alignment ranges only from `0.919642` to `0.918293`, while Gauss-law
+residuals remain near `1e-16` and energy residuals remain below `4e-15`.
+
+The same fixed construction was applied to three other recorded 201-point paths
+and a straight control. Their evolved alignments range from `0.932292` to
+`0.938560`; Riemann's matched first return gives `0.911259`. Source-free Maxwell
+compatibility is therefore not unique to Riemann and is not presented as a
+fingerprint. Riemann's distinctive evidence is the independently measured
+`57.653x` focusing, three caustic folds, and re-expansion of its neighboring
+streamline bundle.
+
 ![Source-free Maxwell field](artifacts/Source_Free_Maxwell_Riemann.png)
 
 Primary references for photon energy-flow trajectories:
