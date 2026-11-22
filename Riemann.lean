@@ -4,3 +4,4 @@ import Riemann.Channel
 import Riemann.Spectrum
 import Riemann.Nulls
 import Riemann.Bridge
+import Riemann.Photon

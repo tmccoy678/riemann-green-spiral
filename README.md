@@ -232,8 +232,12 @@ certificates. Rust binds those constants to all 19 exported field zeros.
 
 `Riemann/Bridge.lean` proves the critical-line/unit-circle arithmetic
 certificate and the fixed-operator and nonautonomous-cocycle intertwining
-theorems. It does not assume that the required physical/arithmetic intertwiner
-exists.
+theorems, isolating the physical/arithmetic intertwiner as an explicit
+construction target.
+
+`Riemann/Photon.lean` proves the compact focusing, caustic-fold, Maxwell
+residual, alignment, forward-flow, and grid-convergence certificate. The Python
+bridge binds its integers to the hashed MATLAB receipts.
 
 GitHub CI verifies the artifact hashes, binds the witness to the exported
 samples, compiles the Lean project, audits its axioms, and runs the checked
