@@ -906,6 +906,10 @@ fn verify_spectrum(rows: &BTreeMap<String, SpectrumRow>, path22: &[Point]) -> Re
         (scaled(channel.spiral_magnitude, 1.0e9), 1_000_336_369),
         (scaled(channel.vertical_magnitude, 1.0e9), 999_248_201),
         (scaled(channel.determinant, 1.0e9), 999_920_547),
+        (
+            scaled(matrix_second_coefficient(&channel.matrix), 1.0e9),
+            2_992_856_527,
+        ),
         (scaled(channel.rotations_in_segment, 1.0e6), 7_905_063),
         (scaled(channel.plane_log_total, 1.0e9), 399_539_664),
         (scaled(channel.vertical_log_total, 1.0e9), -446_736_681),
