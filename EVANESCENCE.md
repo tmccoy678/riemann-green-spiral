@@ -21,6 +21,25 @@ one-sided exponential description before, at, and after the tight focus. The
 slightly stronger Gaussian fits identify the complete local profile as a
 Gaussian-localized Maxwell tube carrying an evanescent-compatible side.
 
+## Gaussian width growth
+
+Using only the same side and cycles 7–9, Gaussian width squared was compared
+with Riemann's recorded arc-length:
+
+| Cycle | Arc from cycle 7 | Width squared |
+|---:|---:|---:|
+| 7 | 0.000000 | 0.994694 |
+| 8 | 12.530841 | 1.047011 |
+| 9 | 25.914549 | 1.118816 |
+
+The frozen linear fit has slope `0.00479619` per arc unit and `R^2 = 0.994910`.
+Gaussian width therefore grows linearly and positively as the channel reopens,
+satisfying the predeclared local diffusion-compatibility criterion.
+
 Reproduce with `source/test_local_evanescence.m`. The complete twelve-ray table
 and frozen criterion are in `data/local_evanescence.tsv` and
 `data/local_evanescence_receipt.txt`.
+
+Reproduce the width-growth test with `source/test_gaussian_width_growth.m`.
+The three-point table and receipt are in `data/gaussian_width_growth.tsv` and
+`data/gaussian_width_growth_receipt.txt`.
