@@ -1,0 +1,13 @@
+CHANNEL_CAYLEY_DIRECT_TEST_REJECTED
+rule=rho=lambda/(1+lambda)
+fitting=none
+lambda_re=0.99684126205100232
+lambda_im=0.083548490308285941
+lambda_abs=1.000336369407925
+rho_re=0.50008422535013541
+rho_im=0.020916639217677918
+zeta_re=-1.4571874275308601
+zeta_im=-0.081930517186050794
+zeta_abs=1.4594888860831998
+verdict=The measured channel eigenvalue is not the Cayley transform of a zeta zero.
+next_boundary=Any bridge must operate on the return operator or its trace data, not identify this single eigenvalue with a single zeta zero.

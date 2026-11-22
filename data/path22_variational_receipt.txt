@@ -1,0 +1,16 @@
+PATH22_VARIATIONAL_RETURN_OPERATOR
+method=dM/dt=(gradient v)M with midpoint expm propagation
+channel_start=1176
+channel_end=1770
+transitions=594
+determinant=0.007629933533406838
+log_abs_determinant=-4.875676144941691
+integrated_divergence=-4.8756761449416857
+liouville_residual=-5.3290705182007514e-15
+density_compensation_multiplier=131.06274066760977
+channel_eigenvalue_1=0.881155147214877+0i
+channel_eigenvalue_2=0.137425022306562+0i
+channel_eigenvalue_3=0.0630089955037576+0i
+return_3_complex_pair=1.02379920230142+/-0.120761374293643i
+return_3_complex_magnitude=1.03089675339207
+interpretation=The fitted affine predictor is not the physical tangent-flow Jacobian; the bridge must use the nonautonomous variational cocycle and a density-weighted current.

@@ -1,0 +1,17 @@
+BOHMIAN_CHANNEL_KINEMATICS_GRID_APPROXIMATION
+status=superseded_for_flow_jacobian_by_path22_variational_returns.tsv
+channel_start=1176
+channel_end=1770
+integrated_divergence=-2.0791992946341225
+operator_log_determinant=-0.047197016675811644
+agreement_residual=-2.0320022779583109
+density_log_compensation=2.0791992946341225
+density_multiplier=7.9980622583498633
+channel_curl_min=3.5632179732160587
+channel_curl_median=4.3794788903759772
+channel_curl_max=7.2542952306724029
+channel_divergence_min=-0.5043865819244584
+channel_divergence_median=-0.15820556786047657
+channel_divergence_max=0.4645789208871155
+uniform_stationary_density=0
+vector_potential_required=1
