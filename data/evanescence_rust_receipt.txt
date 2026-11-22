@@ -1,0 +1,13 @@
+EVANESCENCE_AUDIT_VERIFIED
+cycles=7,8,9 side=normal_2_negative
+kappa_nano=[667736465, 629305112, 586467384]
+exponential_r2_nano=[980568819, 970250982, 963970165]
+gaussian_q_nano=[502666989, 477549973, 446900833]
+gaussian_r2_nano=[982450965, 987828342, 989647322]
+monotonic_fraction_nano=[1000000000, 1000000000, 1000000000]
+mean_alignment_nano=[844959383, 996155137, 996692395]
+width_nano=[994694322, 1047010843, 1118816441]
+arc_micro=[0, 12530841, 25914549]
+slope_pico=4796187890 regression_r2_nano=994909699
+criterion_nano=kappa>0 exp_r2>=950000000 monotonic>=800000000 alignment>=800000000
+growth_criterion=slope_pico>0 regression_r2_nano>=950000000
