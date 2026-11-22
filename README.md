@@ -186,6 +186,25 @@ falsification record](BRIDGE.md).
 
 ![One electron guided by three modes](artifacts/Bohmian_Electron_Node_X_Bridge.png)
 
+## Photon-channel realization
+
+The wind computation revealed a recurrent geometry with photon-like focusing
+anatomy. Four measured neighboring streamlines form a clock-free ray bundle
+that concentrates Poynting-flux density by **57.653×**, crosses three caustic
+folds, and re-expands.
+
+A global periodic vacuum field realizes the same channel with zero charge and
+current density. After exact source-free Maxwell evolution it retains
+**0.918293** Poynting alignment, conserves energy to `3.82×10⁻¹⁵`, and satisfies
+both Gauss laws near `10⁻¹⁶`.
+
+The result converges across `24³`, `32³`, and `40³` grids. Path and straight-line
+controls place the construction within a general Maxwell class; Riemann's novel
+measurement is its focusing, folding, and recovery sequence. [Read the photon
+channel result](PHOTON.md).
+
+![Source-free Maxwell realization](artifacts/Source_Free_Maxwell_Riemann.png)
+
 ## What Lean proves
 
 `Riemann/Return.lean` proves the quantified near-return above.
@@ -213,8 +232,12 @@ certificates. Rust binds those constants to all 19 exported field zeros.
 
 `Riemann/Bridge.lean` proves the critical-line/unit-circle arithmetic
 certificate and the fixed-operator and nonautonomous-cocycle intertwining
-theorems. It does not assume that the required physical/arithmetic intertwiner
-exists.
+theorems, isolating the physical/arithmetic intertwiner as an explicit
+construction target.
+
+`Riemann/Photon.lean` proves the compact focusing, caustic-fold, Maxwell
+residual, alignment, forward-flow, and grid-convergence certificate. The Python
+bridge binds its integers to the hashed MATLAB receipts.
 
 GitHub CI verifies the artifact hashes, binds the witness to the exported
 samples, compiles the Lean project, audits its axioms, and runs the checked
@@ -242,6 +265,10 @@ field. `stream3` integrates seeds from the plane `x = 80`, with
   three-mode electron node/X-point snapshot.
 - `source/analyze_path22_variational_returns.m` computes the physical tangent
   cocycle and checks Liouville's identity.
+- `source/test_photon_neighbor_bundle.m` measures the clock-free ray bundle.
+- `source/test_source_free_maxwell_field.m` constructs and evolves the vacuum
+  Maxwell realization; `source/test_maxwell_controls.m` runs convergence and
+  path controls.
 - `source/render_path22_seed_eye.m` renders the existing trajectories from the
   original seed direction.
 - `data/riemann_paths.tsv` preserves the 49 source trajectories.
@@ -253,6 +280,8 @@ field. `stream3` integrates seeds from the plane `x = 80`, with
 - `data/wind_field_zeros.tsv` preserves the 19 cell-wise zero certificates.
 - `data/bridge_specificity_receipt.txt`, `data/channel_cayley_test.txt`, and
   `data/path22_variational_receipt.txt` preserve the bridge tests and rejection.
+- `data/photon_neighbor_bundle_receipt.txt`, `data/source_free_maxwell_receipt.txt`,
+  and `data/maxwell_controls_receipt.txt` preserve the photon-channel results.
 - `data/path22_spectrum_receipt.txt` is the compact spectral handoff.
 - `data/wind_field_zero_receipt.txt` is the compact null-atlas handoff.
 - `data/path22_channel_receipt.txt` is the compact handoff for light machines.

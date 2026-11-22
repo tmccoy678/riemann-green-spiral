@@ -1,0 +1,13 @@
+SOURCE_FREE_MAXWELL_CONTROLS
+riemann_full_grid_24_alignment_t1=0.919642464750324
+riemann_full_grid_32_alignment_t1=0.918574932947603
+riemann_full_grid_40_alignment_t1=0.918292502084204
+riemann_full_grid_range=0.001349962666120
+riemann_return_1_alignment_t1=0.911258910436882
+path_35_alignment_t1=0.936781918407243
+path_27_alignment_t1=0.932292135294316
+path_10_alignment_t1=0.938111793533869
+straight_control_alignment_t1=0.938559745191863
+control_median_alignment_t1=0.937446855970556
+verdict=Source-free Maxwell compatibility is general under this construction; Riemann is a specific realization, not uniquely persistent.
+distinctive_riemann_result=Measured neighboring bundle focuses 57.653219877708224x, flips orientation three times, and re-expands.
