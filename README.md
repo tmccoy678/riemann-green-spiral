@@ -148,6 +148,24 @@ The seed-eye rendering fixes the observer at the original `(80,20,6)` entry
 direction. It changes only the projection. It assigns no wave phase and no
 exterior continuation.
 
+## Null-and-Whisker Hypothesis
+
+A deterministic 404-start search finds **19 zeros** in the measured trilinear
+field, including **9 spiral zeros**. The nearest zero lies **3.243097 units**
+from path 22; the nearest spiral zero lies **8.252508 units** away. The
+recurrent channel therefore coexists with a mixed atlas of saddle and spiral
+zeros without simply orbiting its nearest null.
+
+**Hypothesis.** A recurrent whisker channel can be organized by a distributed
+atlas of saddle and spiral zeros rather than one nearest spiral zero. Grid
+refinement and manifold continuation can test whether the atlas and its
+channel relationship persist.
+
+Rust independently reconstructs every trilinear vector and analytic Jacobian
+from its cell's eight corner vectors, verifies all residuals below `10⁻⁸`, and
+checks each eigenvalue classification and path distance. Lean checks the
+published counts, identities, and distance ordering.
+
 ## What Lean proves
 
 `Riemann/Return.lean` proves the quantified near-return above.
@@ -170,6 +188,9 @@ certificates. Rust independently recomputes the affine residuals, matrix trace
 and determinant, characteristic-polynomial residuals, accumulated log-rates,
 and all sixteen crossings from the preserved trajectory.
 
+`Riemann/Nulls.lean` proves the compact null-atlas count and distance
+certificates. Rust binds those constants to all 19 exported field zeros.
+
 GitHub CI verifies the artifact hashes, binds the witness to the exported
 samples, compiles the Lean project, audits its axioms, and runs the checked
 summary.
@@ -190,6 +211,8 @@ field. `stream3` integrates seeds from the plane `x = 80`, with
   complete export, boundary summary, and rolling field-exit GIF.
 - `source/analyze_path22_spectrum.m` fits the finite operators and exports the
   spectral and Poincaré crossing tables.
+- `source/find_wind_field_zeros.m` performs the deterministic bounded search
+  and exports each zero's complete interpolation cell.
 - `source/render_path22_seed_eye.m` renders the existing trajectories from the
   original seed direction.
 - `data/riemann_paths.tsv` preserves the 49 source trajectories.
@@ -198,7 +221,9 @@ field. `stream3` integrates seeds from the plane `x = 80`, with
   samples; `data/path22_neighborhood_seeds.tsv` records every endpoint.
 - `data/path22_spectrum.tsv` and `data/path22_poincare.tsv` preserve the fitted
   operator and interior return-section measurements.
+- `data/wind_field_zeros.tsv` preserves the 19 cell-wise zero certificates.
 - `data/path22_spectrum_receipt.txt` is the compact spectral handoff.
+- `data/wind_field_zero_receipt.txt` is the compact null-atlas handoff.
 - `data/path22_channel_receipt.txt` is the compact handoff for light machines.
 - `rust/path22-audit` is the dependency-free full-data verifier and mutation
   test suite.

@@ -144,6 +144,22 @@ struct PoincareCrossing {
     point: Point,
 }
 
+#[derive(Clone, Debug)]
+struct FieldZero {
+    id: usize,
+    point: Point,
+    residual: f64,
+    cell: [usize; 3],
+    bounds: FieldBounds,
+    local: Point,
+    spiral: bool,
+    nearest_path_distance: f64,
+    nearest_path_sample: usize,
+    jacobian: [f64; 9],
+    eigenvalues: [ComplexValue; 3],
+    corners: [[f64; 3]; 8],
+}
+
 impl FieldBounds {
     fn contains(self, point: Point) -> bool {
         self.minimum.x <= point.x
@@ -483,6 +499,280 @@ fn read_poincare(path: &Path) -> Result<Vec<PoincareCrossing>, String> {
         ));
     }
     Ok(crossings)
+}
+
+fn read_field_zeros(path: &Path) -> Result<Vec<FieldZero>, String> {
+    let text = fs::read_to_string(path).map_err(|error| format!("{}: {error}", path.display()))?;
+    let mut lines = text.lines();
+    let header = lines
+        .next()
+        .ok_or_else(|| format!("{}: empty file", path.display()))?;
+    let expected = "zero_id\tx\ty\tz\tresidual\tcell_ix\tcell_iy\tcell_iz\tx0\tx1\ty0\ty1\tz0\tz1\ttx\tty\ttz\tspiral\tnearest_path_distance\tnearest_path_sample\tj11\tj12\tj13\tj21\tj22\tj23\tj31\tj32\tj33\te1_real\te1_imag\te2_real\te2_imag\te3_real\te3_imag\tu000\tv000\tw000\tu100\tv100\tw100\tu010\tv010\tw010\tu110\tv110\tw110\tu001\tv001\tw001\tu101\tv101\tw101\tu011\tv011\tw011\tu111\tv111\tw111";
+    if header != expected {
+        return Err(format!("{}: unexpected header {header:?}", path.display()));
+    }
+
+    let mut zeros = Vec::new();
+    for (offset, line) in lines.enumerate() {
+        let context = format!("{}:{}", path.display(), offset + 2);
+        let fields = split_exact(line, 59, &context)?;
+        let id = positive_usize(fields[0], &context)?;
+        if id != zeros.len() + 1 {
+            return Err(format!("{context}: reordered zero id"));
+        }
+        let spiral = match fields[17] {
+            "0" => false,
+            "1" => true,
+            value => return Err(format!("{context}: invalid spiral flag {value:?}")),
+        };
+        let values = fields[1..]
+            .iter()
+            .enumerate()
+            .map(|(index, value)| {
+                if [4, 5, 6, 18].contains(&index) {
+                    Ok(0.0)
+                } else {
+                    finite(value, &context)
+                }
+            })
+            .collect::<Result<Vec<_>, _>>()?;
+        let mut corners = [[0.0; 3]; 8];
+        for (corner, values) in corners.iter_mut().zip(fields[35..].chunks_exact(3)) {
+            for (target, source) in corner.iter_mut().zip(values) {
+                *target = finite(source, &context)?;
+            }
+        }
+        zeros.push(FieldZero {
+            id,
+            point: Point {
+                x: values[0],
+                y: values[1],
+                z: values[2],
+            },
+            residual: values[3],
+            cell: [
+                positive_usize(fields[5], &context)?,
+                positive_usize(fields[6], &context)?,
+                positive_usize(fields[7], &context)?,
+            ],
+            bounds: FieldBounds {
+                minimum: Point {
+                    x: values[7],
+                    y: values[9],
+                    z: values[11],
+                },
+                maximum: Point {
+                    x: values[8],
+                    y: values[10],
+                    z: values[12],
+                },
+            },
+            local: Point {
+                x: values[13],
+                y: values[14],
+                z: values[15],
+            },
+            spiral,
+            nearest_path_distance: values[17],
+            nearest_path_sample: positive_usize(fields[19], &context)?,
+            jacobian: values[19..28].try_into().expect("nine Jacobian values"),
+            eigenvalues: [
+                ComplexValue {
+                    real: values[28],
+                    imag: values[29],
+                },
+                ComplexValue {
+                    real: values[30],
+                    imag: values[31],
+                },
+                ComplexValue {
+                    real: values[32],
+                    imag: values[33],
+                },
+            ],
+            corners,
+        });
+    }
+    if zeros.len() != 19 {
+        return Err(format!("field-zero cardinality mismatch: {}", zeros.len()));
+    }
+    Ok(zeros)
+}
+
+fn trilinear_vector(zero: &FieldZero) -> [f64; 3] {
+    let t = [zero.local.x, zero.local.y, zero.local.z];
+    let mut vector = [0.0; 3];
+    for dz in 0..=1 {
+        for dy in 0..=1 {
+            for dx in 0..=1 {
+                let corner = dz * 4 + dy * 2 + dx;
+                let weight = if dx == 1 { t[0] } else { 1.0 - t[0] }
+                    * if dy == 1 { t[1] } else { 1.0 - t[1] }
+                    * if dz == 1 { t[2] } else { 1.0 - t[2] };
+                for (target, value) in vector.iter_mut().zip(zero.corners[corner]) {
+                    *target += weight * value;
+                }
+            }
+        }
+    }
+    vector
+}
+
+fn trilinear_jacobian(zero: &FieldZero) -> [f64; 9] {
+    let t = [zero.local.x, zero.local.y, zero.local.z];
+    let widths = [
+        zero.bounds.maximum.x - zero.bounds.minimum.x,
+        zero.bounds.maximum.y - zero.bounds.minimum.y,
+        zero.bounds.maximum.z - zero.bounds.minimum.z,
+    ];
+    let mut matrix = [0.0; 9];
+
+    for dz in 0..=1 {
+        for dy in 0..=1 {
+            let weight = (if dy == 1 { t[1] } else { 1.0 - t[1] })
+                * (if dz == 1 { t[2] } else { 1.0 - t[2] });
+            let low = dz * 4 + dy * 2;
+            for component in 0..3 {
+                matrix[component * 3] +=
+                    (zero.corners[low + 1][component] - zero.corners[low][component]) * weight
+                        / widths[0];
+            }
+        }
+    }
+    for dz in 0..=1 {
+        for dx in 0..=1 {
+            let weight = (if dx == 1 { t[0] } else { 1.0 - t[0] })
+                * (if dz == 1 { t[2] } else { 1.0 - t[2] });
+            let low = dz * 4 + dx;
+            for component in 0..3 {
+                matrix[component * 3 + 1] +=
+                    (zero.corners[low + 2][component] - zero.corners[low][component]) * weight
+                        / widths[1];
+            }
+        }
+    }
+    for dy in 0..=1 {
+        for dx in 0..=1 {
+            let weight = (if dx == 1 { t[0] } else { 1.0 - t[0] })
+                * (if dy == 1 { t[1] } else { 1.0 - t[1] });
+            let low = dy * 2 + dx;
+            for component in 0..3 {
+                matrix[component * 3 + 2] +=
+                    (zero.corners[low + 4][component] - zero.corners[low][component]) * weight
+                        / widths[2];
+            }
+        }
+    }
+    matrix
+}
+
+fn verify_field_zeros(
+    zeros: &[FieldZero],
+    path22: &[Point],
+    field: FieldBounds,
+) -> Result<(), String> {
+    let mut spiral_count = 0usize;
+    for zero in zeros {
+        if !field.contains(zero.point) || !zero.bounds.contains(zero.point) {
+            return Err(format!(
+                "zero {}: point lies outside its measured cell",
+                zero.id
+            ));
+        }
+        let widths = [
+            zero.bounds.maximum.x - zero.bounds.minimum.x,
+            zero.bounds.maximum.y - zero.bounds.minimum.y,
+            zero.bounds.maximum.z - zero.bounds.minimum.z,
+        ];
+        if widths.iter().any(|width| *width <= 0.0) {
+            return Err(format!("zero {}: invalid cell bounds", zero.id));
+        }
+        let local = [
+            (zero.point.x - zero.bounds.minimum.x) / widths[0],
+            (zero.point.y - zero.bounds.minimum.y) / widths[1],
+            (zero.point.z - zero.bounds.minimum.z) / widths[2],
+        ];
+        if local
+            .iter()
+            .zip([zero.local.x, zero.local.y, zero.local.z])
+            .any(|(derived, exported)| (derived - exported).abs() > 1.0e-12)
+        {
+            return Err(format!("zero {}: local coordinate mismatch", zero.id));
+        }
+
+        let vector = trilinear_vector(zero);
+        let residual = vector.iter().map(|value| value * value).sum::<f64>().sqrt();
+        if residual >= 1.0e-8 || (residual - zero.residual).abs() > 1.0e-12 {
+            return Err(format!("zero {}: trilinear residual mismatch", zero.id));
+        }
+        let jacobian = trilinear_jacobian(zero);
+        if jacobian
+            .iter()
+            .zip(zero.jacobian)
+            .any(|(derived, exported)| (derived - exported).abs() > 2.0e-9)
+        {
+            return Err(format!("zero {}: analytic Jacobian mismatch", zero.id));
+        }
+        if zero
+            .eigenvalues
+            .iter()
+            .any(|&value| characteristic_residual(&jacobian, value) > 1.0e-8)
+        {
+            return Err(format!("zero {}: eigenvalue certificate mismatch", zero.id));
+        }
+        let spiral = zero
+            .eigenvalues
+            .iter()
+            .any(|value| value.imag.abs() > 1.0e-7);
+        if spiral != zero.spiral {
+            return Err(format!("zero {}: spiral classification mismatch", zero.id));
+        }
+        spiral_count += usize::from(spiral);
+
+        let (sample, distance_squared) = path22
+            .iter()
+            .enumerate()
+            .map(|(index, &point)| (index + 1, squared_distance(zero.point, point)))
+            .min_by(|left, right| left.1.total_cmp(&right.1))
+            .ok_or_else(|| "path 22 is empty".to_owned())?;
+        if sample != zero.nearest_path_sample
+            || (distance_squared.sqrt() - zero.nearest_path_distance).abs() > 1.0e-11
+        {
+            return Err(format!(
+                "zero {}: nearest-path certificate mismatch",
+                zero.id
+            ));
+        }
+    }
+    require_equal(spiral_count, 9, "spiral-zero count")?;
+    let nearest = zeros
+        .iter()
+        .min_by(|left, right| {
+            left.nearest_path_distance
+                .total_cmp(&right.nearest_path_distance)
+        })
+        .ok_or_else(|| "zero atlas is empty".to_owned())?;
+    let nearest_spiral = zeros
+        .iter()
+        .filter(|zero| zero.spiral)
+        .min_by(|left, right| {
+            left.nearest_path_distance
+                .total_cmp(&right.nearest_path_distance)
+        })
+        .ok_or_else(|| "spiral-zero atlas is empty".to_owned())?;
+    require_equal(nearest.id, 8, "nearest field-zero id")?;
+    require_equal(nearest_spiral.id, 3, "nearest spiral-zero id")?;
+    require_equal(
+        micro(nearest.nearest_path_distance),
+        3_243_097,
+        "nearest field-zero distance",
+    )?;
+    require_equal(
+        micro(nearest_spiral.nearest_path_distance),
+        8_252_508,
+        "nearest spiral-zero distance",
+    )?;
+    Ok(())
 }
 
 fn matrix_trace(matrix: &[f64; 9]) -> f64 {
@@ -996,6 +1286,8 @@ fn run(root: &Path) -> Result<(), String> {
     let (flow, max_speed_residual) = read_flow(&root.join("data/path22_flow.tsv"), path22)?;
     let meta = read_meta(&root.join("data/path22_field_meta.tsv"))?;
     let bounds = field_bounds(&meta)?;
+    let field_zeros = read_field_zeros(&root.join("data/wind_field_zeros.tsv"))?;
+    verify_field_zeros(&field_zeros, path22, bounds)?;
     let spectrum = read_spectrum(&root.join("data/path22_spectrum.tsv"))?;
     verify_spectrum(&spectrum, path22)?;
     let poincare = read_poincare(&root.join("data/path22_poincare.tsv"))?;
@@ -1194,6 +1486,20 @@ fn run(root: &Path) -> Result<(), String> {
     println!(
         "poincare_crossings={} orientation=alternating z=strictly_descending radial=expanding",
         poincare.len()
+    );
+    let nearest = &field_zeros[7];
+    let nearest_spiral = &field_zeros[2];
+    println!(
+        "field_zeros={} spiral_zeros={} nearest_id={} nearest_cell={:?} nearest_distance={:.12}",
+        field_zeros.len(),
+        field_zeros.iter().filter(|zero| zero.spiral).count(),
+        nearest.id,
+        nearest.cell,
+        nearest.nearest_path_distance
+    );
+    println!(
+        "nearest_spiral_id={} nearest_spiral_distance={:.12}",
+        nearest_spiral.id, nearest_spiral.nearest_path_distance
     );
     Ok(())
 }

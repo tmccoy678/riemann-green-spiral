@@ -12,3 +12,4 @@ def main : IO Unit := do
   IO.println "Post-field outcome: unresolved; continuation and disappearance remain admissible."
   IO.println "Lean-checked spectrum: rotating-plane expansion balances vertical contraction near -1/2."
   IO.println "Lean-checked Poincare section: sixteen alternating crossings expand outward while descending in z."
+  IO.println "Lean-checked null atlas: nineteen zeros, including nine spiral zeros, remain distinct from path 22."

@@ -1,0 +1,19 @@
+NULL_AND_WHISKER_ATLAS_VERIFIED
+field=MATLAB_R2026a_wind
+interpolation=trilinear
+deterministic_starts=404
+root_residual_limit=1e-8
+zeros=19
+spiral_zeros=9
+best_regenerated_residual=1.5288340725784332e-15
+nearest_zero_id=8
+nearest_zero_xyz=86.8474240024,19.1082294412,5.4101695522
+nearest_zero_path_sample=75
+nearest_zero_distance=3.2430973111636203
+nearest_spiral_zero_id=3
+nearest_spiral_zero_xyz=73.8235266567,23.3121050218,1.6428190891
+nearest_spiral_zero_path_sample=1
+nearest_spiral_zero_distance=8.2525079900612131
+rust_binding=eight_cell_corners,trilinear_residual,analytic_jacobian,eigenvalues,path_distance
+lean_certificate=counts,nearest_ids,distance_ordering
+hypothesis=A recurrent whisker channel can be organized by a distributed atlas of saddle and spiral zeros rather than one nearest spiral zero.
