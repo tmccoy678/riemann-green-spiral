@@ -224,6 +224,13 @@ The original code and Lean formalization are MIT licensed. MATLAB is required
 separately for regeneration; see `THIRD-PARTY-NOTICES.md` for the data and
 software boundary.
 
+## Mathematical lineage
+
+The return-map, torus, whisker, saddle-focus, operator, and spiral magnetic-null
+language is credited in [REFERENCES.md](REFERENCES.md). The project uses those
+established structures as explicit comparisons while preserving the boundary
+between the measured MATLAB field and each physical or number-theoretic model.
+
 ## AI provenance
 
 - **Name:** Blu
