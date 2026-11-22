@@ -25,7 +25,12 @@ fn fixture(label: &str) -> Fixture {
         std::process::id()
     ));
     fs::create_dir_all(root.join("data")).expect("create fixture");
-    for name in ["local_evanescence.tsv", "gaussian_width_growth.tsv"] {
+    for name in [
+        "local_evanescence.tsv",
+        "gaussian_width_growth.tsv",
+        "comsol_evanescence.tsv",
+        "comsol_gaussian_width_growth.tsv",
+    ] {
         fs::copy(
             source_root().join("data").join(name),
             root.join("data").join(name),
@@ -118,4 +123,17 @@ fn altered_arc_is_rejected() {
         })
     });
     assert_failure(run(&fixture.0), "linear prediction mismatch");
+}
+
+#[test]
+fn broken_comsol_forward_flux_is_rejected() {
+    let fixture = fixture("comsol-forward");
+    rewrite_line(&fixture.0.join("data/comsol_evanescence.tsv"), |line| {
+        let mut fields = line.split('\t').collect::<Vec<_>>();
+        (fields.first() == Some(&"8")).then(|| {
+            fields[4] = "0";
+            fields.join("\t")
+        })
+    });
+    assert_failure(run(&fixture.0), "COMSOL Maxwell criterion mismatch");
 }
