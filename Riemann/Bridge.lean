@@ -37,4 +37,30 @@ theorem channel_operator_is_near_reciprocal :
     channelSecondCoefficientNano channelDeterminantNano
   decide
 
+section OperatorBridge
+
+variable {K V W : Type} [SMul K V] [SMul K W]
+
+/-- An eigen-relation without assuming any particular linear-algebra library. -/
+def IsEigenRelation (operator : V → V) (value : K) (vector : V) : Prop :=
+  operator vector = value • vector
+
+/-- A map that respects scalar action and intertwines two operators. -/
+structure OperatorIntertwiner (source : V → V) (target : W → W) where
+  map : V → W
+  map_smul : ∀ (value : K) (vector : V), map (value • vector) = value • map vector
+  operator_commutes : ∀ vector : V, map (source vector) = target (map vector)
+
+/-- Any genuine intertwiner carries a source eigen-relation to the target. -/
+theorem OperatorIntertwiner.carries_eigen_relation
+    {source : V → V} {target : W → W}
+    (bridge : OperatorIntertwiner (K := K) source target)
+    {value : K} {vector : V}
+    (relation : IsEigenRelation (K := K) source value vector) :
+    IsEigenRelation (K := K) target value (bridge.map vector) := by
+  unfold IsEigenRelation at relation ⊢
+  rw [← bridge.operator_commutes, relation, bridge.map_smul]
+
+end OperatorBridge
+
 end Riemann

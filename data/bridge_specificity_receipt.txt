@@ -1,0 +1,19 @@
+INVARIANT_CHANNEL_SPECIFICITY
+long_window_transitions=594
+long_window_count=22
+long_window_paths=1
+channel_combined_reciprocal_defect=0.00015365087796148647
+long_windows_smaller_or_equal=2
+long_window_fraction=0.090909090909090912
+fair_window_transitions=200
+fair_window_count=190
+fair_window_paths=31
+return_one_combined_reciprocal_defect=0.00057383320795245663
+fair_windows_smaller_or_equal=6
+fair_window_fraction=0.031578947368421054
+path22_window_count=51
+path22_median_combined_defect=0.0025264669818081398
+other_path_window_count=139
+other_path_median_combined_defect=0.0279370231055622
+top_20_path22_windows=16
+interpretation=Reciprocal structure is concentrated along path 22 but is not unique to one selected interval.
