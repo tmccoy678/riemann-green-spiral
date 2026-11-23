@@ -1,0 +1,13 @@
+PATH22_SCATTERING_PAIRING_REJECTION
+metric_signature=1,1
+training_residuals=0.000352422,0.022442882,0.000282646,0.003725749,0.002852563
+heldout_residuals=0.110068282,0.190797836,0.078581654,0.930603568,1.006434766
+heldout_residual_min=0.078581654351550304
+heldout_residual_max=1.0064347662599928
+positive_definite_unitarity=0
+indefinite_signature_stable=1
+canonical_scattering_pairing_pass=0
+riemann_hypothesis_claim=0
+source_sha256=42dd11fd7d1046c7bc6221ffd0787bcf351738f59b541d71da76262bcd5cb28d
+table_sha256=3316acc0ce0d992b83834b8ef7ca28c14d2c9ca4469836d7ccb6ddbb895aabfe
+note_sha256=2f642d939b1af4e117a07a8b810216da46de929c924b4cb47140e92cb085f706
