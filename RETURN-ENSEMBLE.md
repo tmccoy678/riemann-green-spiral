@@ -68,6 +68,38 @@ The symbolic candidate survives only if its lobe partition, forbidden words,
 and weighted spectrum remain stable under held-out seeds and adaptive boundary
 refinement.
 
+## Prime-polar target check
+
+The referenced prime visualization plots `(r, theta) = (p, p)`. Its visible
+arms arise from residue classes whose step size is close to a whole number of
+rotations. Prime filtering removes classes that are not units modulo the step.
+The 20-arm and 280-ray examples are `phi(44)` and `phi(710)` respectively.
+
+The measured source does not presently derive either modulus. The 313 return
+seeds form one four-connected component with no enclosed holes. Their first
+nine section clouds approach two alternating orientation branches rather than
+20 or 280 distinct lobes.
+
+There is one minimal finite candidate. The source orientation graph is the
+two-cycle `positive <-> negative`. The eligible prime residue classes modulo 6
+are `{1, 5}`, with multiplication by `-1` exchanging them. The map
+
+```text
+positive -> 1 mod 6
+negative -> 5 mod 6
+```
+
+is therefore a finite `C2` graph isomorphism after fixing the positive
+orientation convention. It does not establish a zeta or prime-distribution
+bridge: many unrelated systems contain a two-cycle, and the source has not
+independently selected modulus 6 from its metric data. It remains a base-case
+candidate for later refinement, not the map itself.
+
+References:
+
+- https://www.3blue1brown.com/lessons/prime-spirals/
+- https://ibmathsresources.com/2021/07/18/prime-spirals-patterns-in-primes/
+
 ## Dimension-dependent density hypothesis
 
 Two exponents arise from the measured geometry without arithmetic fitting:
