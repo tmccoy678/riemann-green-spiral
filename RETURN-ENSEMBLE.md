@@ -126,6 +126,28 @@ boundary. If refined paths populate crossing counts three through eight, the
 gap is resolution-dependent. If the empty gap persists, it supports a genuine
 dynamical barrier or turnstile boundary.
 
+### First adaptive refinement
+
+The 74 coarse cells containing both return and non-return corners were refined
+at half-step spacing. This produced 298 new seeds and 387,675 trajectory
+samples without resampling the basin interior.
+
+The independently regenerated result is:
+
+```text
+new returns                         145
+new non-returns                     153
+return / nine-crossing mismatches     0
+maximum non-return crossings          2
+minimum return crossings             13
+return paths alternating first nine 145 / 145
+```
+
+No refined path has three through twelve crossings. The original `3–8` empty
+gap therefore persists and widens locally at the sampled boundary. This is
+independent support on a targeted refinement, not yet an infinite-resolution
+topological theorem.
+
 ## Reproduce
 
 ```sh
@@ -134,4 +156,13 @@ rustc -O source/derive_return_ensemble.rs -o /tmp/derive-return-ensemble
 cmp /tmp/return-ensemble-first9.tsv data/return_ensemble_first9.tsv
 Rscript source/analyze_return_operator_raw.R
 Rscript source/analyze_return_operator_density.R
+
+# Adaptive boundary falsification
+/Applications/MATLAB_R2026a.app/bin/matlab -batch \
+  "run('source/refine_return_boundary.m')"
+rustc -O source/classify_return_refinement.rs \
+  -o /tmp/classify-return-refinement
+/tmp/classify-return-refinement \
+  /tmp/return_boundary_refinement.tsv \
+  /tmp/return_boundary_refinement_summary.tsv
 ```
