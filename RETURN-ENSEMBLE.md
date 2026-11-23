@@ -101,6 +101,18 @@ unique once the measured first positive crossing is fixed as the arithmetic
 identity. It also checks the complete first-nine orientation word. Rust binds
 that finite word to all 313 exported paths.
 
+The same file now constructs the two characters of the finite unit group. The
+principal character is invariant under the flip and the nontrivial character
+is antisymmetric. Pulling them back through the orientation map diagonalizes
+the measured two-state transition with eigenvalues `+1` and `-1`. This is the
+exact finite Fourier/character bridge for the `C2` base case.
+
+On the arithmetic side, the principal Dirichlet series for units modulo 6 is
+`zeta(s) * (1 - 2^(-s)) * (1 - 3^(-s))`. The finite character bridge does not
+yet prove that identity for the return operator: the source still lacks a
+derived assignment of return cycles to the logarithmic integer or prime
+weights in that series.
+
 References:
 
 - https://www.3blue1brown.com/lessons/prime-spirals/
