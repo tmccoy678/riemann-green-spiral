@@ -1,0 +1,13 @@
+LSYSTEM_ORIENTATION_EXPLORATION
+alphabet=positive,negative
+production_positive=negative
+production_negative=positive
+training_paths=313
+training_transitions=2504
+path22_heldout_crossings=10..16
+path22_heldout_correct=7/7
+adaptive_heldout_paths=145
+adaptive_heldout_correct=145/145
+quantitative_geometry_predicted=0
+riemann_hypothesis_claim=0
+source_sha256=57ac230948e279febab7e4d87978246e7a045deb2240394d46aac7eadf122d04
