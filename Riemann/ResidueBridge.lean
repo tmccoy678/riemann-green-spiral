@@ -92,6 +92,40 @@ theorem pulled_sign_character_has_eigenvalue_negative_one
       -pullCharacter UnitModSix.signCharacter orientation := by
   cases orientation <;> rfl
 
+/-- A section orientation together with its translating return-cycle index. -/
+structure ReturnFiberState where
+  cycle : Nat
+  orientation : SectionOrientation
+  deriving DecidableEq, Repr
+
+/-- One section crossing advances the alternating state and then its cycle. -/
+def ReturnFiberState.next : ReturnFiberState → ReturnFiberState
+  | ⟨cycle, .positive⟩ => ⟨cycle, .negative⟩
+  | ⟨cycle, .negative⟩ => ⟨cycle + 1, .positive⟩
+
+/-- The integers in the two unit residue classes modulo six. -/
+def ReturnFiberState.candidateNumber : ReturnFiberState → Nat
+  | ⟨cycle, .positive⟩ => 6 * cycle + 1
+  | ⟨cycle, .negative⟩ => 6 * cycle + 5
+
+def firstNineFiberStates : List ReturnFiberState :=
+  [⟨0, .positive⟩, ⟨0, .negative⟩,
+   ⟨1, .positive⟩, ⟨1, .negative⟩,
+   ⟨2, .positive⟩, ⟨2, .negative⟩,
+   ⟨3, .positive⟩, ⟨3, .negative⟩,
+   ⟨4, .positive⟩]
+
+theorem first_nine_crossings_generate_mod_six_candidates :
+    firstNineFiberStates.map ReturnFiberState.candidateNumber =
+      [1, 5, 7, 11, 13, 17, 19, 23, 25] := by
+  decide
+
+theorem first_nine_candidate_gaps_alternate :
+    (firstNineFiberStates.zip firstNineFiberStates.tail).map
+      (fun pair => pair.2.candidateNumber - pair.1.candidateNumber) =
+      [4, 2, 4, 2, 4, 2, 4, 2] := by
+  decide
+
 /-- The measured first-nine-crossing orientation word. -/
 def firstNineOrientations : List SectionOrientation :=
   [.positive, .negative, .positive, .negative, .positive,

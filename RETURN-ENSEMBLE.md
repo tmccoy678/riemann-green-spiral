@@ -113,6 +113,26 @@ yet prove that identity for the return operator: the source still lacks a
 derived assignment of return cycles to the logarithmic integer or prime
 weights in that series.
 
+### Translation extension
+
+The ensemble does supply a coherent affine fiber. All 2,191 measured
+same-orientation transitions descend in `z`; the global median displacement is
+`-0.091159291294`. The source therefore has the form of a two-state flip
+extended by a translating cycle index.
+
+`Riemann/ResidueBridge.lean` maps the pointed fiber states by
+
+```text
+(positive, k) -> 6*k + 1
+(negative, k) -> 6*k + 5
+```
+
+and proves that the successive gaps alternate `4,2` and that the measured first
+nine crossings generate `1,5,7,11,13,17,19,23,25`. These are candidate
+integers in the two unit residue classes modulo 6, not
+certified primes: the included composite `25` exhibits the still-missing
+primality filter directly.
+
 References:
 
 - https://www.3blue1brown.com/lessons/prime-spirals/
