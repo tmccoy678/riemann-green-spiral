@@ -6,3 +6,4 @@ import Riemann.Nulls
 import Riemann.Bridge
 import Riemann.Photon
 import Riemann.Evanescence
+import Riemann.ResidueBridge

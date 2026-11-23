@@ -95,6 +95,12 @@ bridge: many unrelated systems contain a two-cycle, and the source has not
 independently selected modulus 6 from its metric data. It remains a base-case
 candidate for later refinement, not the map itself.
 
+`Riemann/ResidueBridge.lean` proves that the map commutes with the source flip,
+that the target flip is multiplication by `5 = -1 mod 6`, and that the map is
+unique once the measured first positive crossing is fixed as the arithmetic
+identity. It also checks the complete first-nine orientation word. Rust binds
+that finite word to all 313 exported paths.
+
 References:
 
 - https://www.3blue1brown.com/lessons/prime-spirals/
