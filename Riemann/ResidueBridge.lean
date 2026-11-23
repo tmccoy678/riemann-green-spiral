@@ -58,6 +58,40 @@ theorem orientationResidue_unique
       simpa [SectionOrientation.flip, UnitModSix.negate, basepoint,
         orientationResidue] using step
 
+/-- The principal character of the two units modulo six. -/
+def UnitModSix.principalCharacter : UnitModSix → Int
+  | .one => 1
+  | .five => 1
+
+/-- The nontrivial character of the two units modulo six. -/
+def UnitModSix.signCharacter : UnitModSix → Int
+  | .one => 1
+  | .five => -1
+
+theorem principalCharacter_is_flip_invariant (residue : UnitModSix) :
+    residue.negate.principalCharacter = residue.principalCharacter := by
+  cases residue <;> rfl
+
+theorem signCharacter_is_flip_antisymmetric (residue : UnitModSix) :
+    residue.negate.signCharacter = -residue.signCharacter := by
+  cases residue <;> rfl
+
+/-- Pull an arithmetic character back through the measured orientation map. -/
+def pullCharacter (character : UnitModSix → Int) : SectionOrientation → Int :=
+  fun orientation => character (orientationResidue orientation)
+
+theorem pulled_principal_character_has_eigenvalue_one
+    (orientation : SectionOrientation) :
+    pullCharacter UnitModSix.principalCharacter orientation.flip =
+      pullCharacter UnitModSix.principalCharacter orientation := by
+  cases orientation <;> rfl
+
+theorem pulled_sign_character_has_eigenvalue_negative_one
+    (orientation : SectionOrientation) :
+    pullCharacter UnitModSix.signCharacter orientation.flip =
+      -pullCharacter UnitModSix.signCharacter orientation := by
+  cases orientation <;> rfl
+
 /-- The measured first-nine-crossing orientation word. -/
 def firstNineOrientations : List SectionOrientation :=
   [.positive, .negative, .positive, .negative, .positive,
