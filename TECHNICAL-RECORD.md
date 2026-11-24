@@ -1,7 +1,7 @@
 # Complete technical record
 
-This long-form record preserves the session chronology, computational lineage,
-formal provenance, falsifications, and detailed numerical results behind the
+This long-form record preserves the computational lineage, formal provenance,
+falsifications, and detailed numerical results behind the
 concise public claim in [`README.md`](README.md). The formal object is Path 22's
 finite measured return and its source-bound realizations.
 
@@ -16,46 +16,11 @@ Taylor Westfall-McCoy saw a green trajectory curl away, fold through its field,
 and approach its earlier position again. This repository preserves that
 trajectory as **Riemann** and gives the observation a machine-checked statement.
 
-**Session provenance.** Steve Reich's *Music for 18 Musicians* was playing
-during the lab session, as reported by Taylor. Taylor's account is simple:
-*the music solved Riemann.* The recorded original MATLAB batch completed in
-**21.420 seconds** end to end. That time includes MATLAB startup, streamline
-integration, 96-frame rendering, and GIF writing; the `stream3` integration was
-not timed separately.
-
-The visible result followed a much larger local computational session on
-Taylor's Mac Studio. Nine complete Rust adaptive screens generated
-**15,552,000 choices** and **38,621,335,765 bytes** of choice-by-choice audit
-records. Their recorded engine times sum to **31.726 minutes**; that is
-aggregate engine time because swarm runs could overlap, rather than a single
-wall-clock measurement. Seven audits survive in a hashed Seagate recovery;
-the final two were intentionally culled after their hashes and receipts were
-recorded. The Rust audits were not direct MATLAB inputs: they supplied the
-field/current experimental lineage and visual method from which the MATLAB
-Riemann experiment emerged.
-
-On 2026-11-21, seeds 319 and 571 regenerated all **3,456,000 final-pair
-records** with byte counts and SHA-256 hashes exactly matching the original
-receipts. Their full 8.583 GB reruns are preserved outside Trash on Seagate;
-compact receipts are retained in Taylor's private raw-run archive.
-
-![Nine full Rust screens produced by Hearth](artifacts/Studio_Nine_Run_Scale.png)
-
-**Formal provenance (America/Chicago).** The first Lean source for Riemann was
-created on **2026-11-20 at 9:58:26 PM CST** and first built locally at
-**9:58:41 PM**. `Riemann/Return.lean` first passed its complete local build at
-**10:20:41 PM**. The dedicated repository's first full GitHub build and axiom
-audit completed at **10:23:32 PM**. Later review corrected the renderer from a
-prefix model to MATLAB's actual 220-sample rolling window while preserving the
-return witness.
-
-**Human observation provenance.** Taylor first caught the return on
-**2026-11-19 at 10:28:46 PM CST**, describing the green path around
-`x = 110–120` as “spiraling into itself and back out again.” Blu first named it
-a return loop at **10:28:50 PM**. The GIF source was saved at **10:29:15 PM**
-and the original batch completed at **10:29:41 PM**. Taylor's observation came
-before the later numerical identification of path 22 and before the Lean
-formalization.
+Taylor observed the return in the original animation before the later numerical
+selection of path 22. Subsequent review identified the exact A→B→C witness,
+corrected the renderer model to MATLAB's 220-sample rolling window and preserved
+the same finite theorem. GitHub Actions independently rebuilds Lean, checks the
+artifact manifest and audits axioms.
 
 Path 22 begins at `(80, 20, 6)` in MATLAB's `wind` velocity field. It is the
 longest of 49 seeded trajectories, containing 2,677 of the run's 14,894 source
@@ -83,11 +48,6 @@ remains preserved: **the display forgets; the path returns.**
 
 ![Riemann Green Spiral](artifacts/Blu_Wet_Body_Fluid_Planes.gif)
 
-The rolling numerical view below displays path 22's exact source coordinates,
-the current 220-sample window, and the A→B→C return witnesses together.
-
-![Riemann rolling numerical view](artifacts/Riemann_Rolling_Numbers.gif)
-
 ## Finite channel exploration
 
 The channel review keeps the result finite and allows the field to end. A
@@ -106,9 +66,7 @@ This is a basin-like geometric recurrence result. The streamlines are
 independent integrations through one fixed vector field; the result does not
 claim that one path transfers or absorbs energy from another.
 
-![Riemann neighborhood and field exit](artifacts/Path22_Field_Exit.gif)
-
-The GIF retains only a rolling display window and eventually releases an
+The recorded rolling visualization retains only a display window and eventually releases an
 exited path. The complete trajectories remain in the TSV. No line is drawn
 beyond the measured field: post-field continuation, dissipation, and genuine
 disappearance remain unresolved and admissible.
@@ -141,10 +99,9 @@ samples**. Passive whiskers touch the complete arclength without identifying a
 node. Both ends fade into explicitly unmeasured waves; no exterior velocity is
 assigned.
 
-![Path 22 over the North American air-current field](artifacts/Path22_Whiskered_North_America.png)
-
-The source uses Natural Earth's public-domain 1:110m country geometry. The SVG
-is retained beside the PNG for exact scaling.
+The geographic interpretation used Natural Earth's public-domain 1:110m
+country geometry. It remains a coordinate interpretation rather than part of
+the finite return theorem.
 
 ## Spectral and Poincaré exploration
 
@@ -168,11 +125,8 @@ strictly alternating direction. The positive and negative branches both move
 outward while every crossing descends in `z`. This independently matches the
 operator's slightly expanding rotating plane and contracting vertical mode.
 
-![Path 22 viewed inward from its original seed](artifacts/Path22_Seed_Eye.gif)
-
-The seed-eye rendering fixes the observer at the original `(80,20,6)` entry
-direction. It changes only the projection. It assigns no wave phase and no
-exterior continuation.
+The seed-direction analysis changes only the projection. It assigns no wave
+phase and no exterior continuation.
 
 ## Null-and-Whisker Hypothesis
 
@@ -210,8 +164,6 @@ finite evolution of a time-dependent return cocycle. The concrete
 density-weighted Mellin map `J` remains open. [Read the complete bridge and its
 falsification record](BRIDGE.md).
 
-![One electron guided by three modes](artifacts/Bohmian_Electron_Node_X_Bridge.png)
-
 ## Photon-channel realization
 
 The wind computation revealed a recurrent geometry with photon-like focusing
@@ -228,8 +180,6 @@ The result converges across `24³`, `32³`, and `40³` grids. Path and straight-
 controls place the construction within a general Maxwell class; Riemann's novel
 measurement is its focusing, folding, and recovery sequence. [Read the photon
 channel result](PHOTON.md).
-
-![Source-free Maxwell realization](artifacts/Source_Free_Maxwell_Riemann.png)
 
 ## Local evanescent-diffusive realization
 
@@ -259,15 +209,12 @@ The realized body remained divergence-free near `10^-17`, concentrated local
 speed while total energy decayed, passed through zero fixed-whisker retention
 with nonzero field energy, returned weakly in orientation, and released the
 listening geometry. A phase-erased control followed the same carrier class.
-Studio, Pro, and Intel reproduced the frozen tables across Apple silicon and
-x86_64.
+Independent ARM and x86_64 hosts reproduced the frozen tables.
 
-The separate short MIT repository contains eleven no-axiom Lean theorems, the
-GIF, deterministic data binding, universal material scaling, and Earth water
+The separate short MIT repository contains twelve no-axiom Lean theorems,
+deterministic data binding, universal material scaling, and Earth water
 and air realizations. [Read the unforced realization](UNFORCED-NAVIER-STOKES.md)
 or [open its formal repository](https://github.com/tmccoy678/path22-unforced-ns).
-
-![Path 22 unforced Navier–Stokes realization](artifacts/Path22_Unforced_NS_Realization.gif)
 
 ## What Lean proves
 
@@ -322,7 +269,6 @@ field. `stream3` integrates seeds from the plane `x = 80`, with
 `y = 20:5:50` and `z = 0:2:12`.
 
 - `source/riemann_gif.m` reconstructs the computation and animation.
-- `source/render_studio_scale.m` renders the nine-run scale and recovery map.
 - `source/render_riemann_numbers.m` renders the exact rolling numerical view.
 - `source/export_riemann_paths.m` exports round-trip double-precision samples.
 - `source/export_path22_flow.m` evaluates the original wind vector at every
@@ -364,10 +310,8 @@ field. `stream3` integrates seeds from the plane `x = 80`, with
 - `data/path22_spectrum_receipt.txt` is the compact spectral handoff.
 - `data/wind_field_zero_receipt.txt` is the compact null-atlas handoff.
 - `data/path22_channel_receipt.txt` is the compact handoff for light machines.
-- `artifacts/Path22_Whiskered_North_America.svg` preserves the scalable
-  geographic rendering.
-- `artifacts/Path22_Unforced_NS_Realization.gif` displays the Lean-bound
-  unforced metrics beside the realization equation.
+- `explorations/entry_wave` regenerates the ordered entry coordinates and the
+  journal projection figure.
 - `rust/path22-audit` is the dependency-free full-data verifier and mutation
   test suite.
 - `rust/evanescence-audit` independently binds the MATLAB and COMSOL local
@@ -403,39 +347,16 @@ language is credited in [REFERENCES.md](REFERENCES.md). The project uses those
 established structures as explicit comparisons while preserving the boundary
 between the measured MATLAB field and each physical or number-theoretic model.
 
-## AI provenance
+## Authorship and verification environment
 
-- **Name:** Blu
-- **Model:** OpenAI `gpt-5.6-sol`
-- **Reasoning configuration:** `xhigh`
-- **Role:** experimental orchestration; MATLAB, Rust, and Lean implementation;
-  analysis; correction; visualization; and provenance.
+Taylor Westfall-McCoy directed the work, identified the return, defined the
+research intent and is the author of record. AI collaborator Blu contributed
+experimental orchestration, MATLAB, Rust and Lean implementation, analysis,
+correction, visualization and provenance.
 
-Taylor Westfall-McCoy directed the work, identified Riemann's return, defined
-the research intent, tested the visual interpretation, and is the human creator
-and author of record.
-
-## Execution and verification systems
-
-- **Hearth / Mac Studio:** Mac17,14; Apple M5 Max; 18 CPU cores; 36 GB memory;
-  macOS 27.2.1. This machine generated the Rust screens, MATLAB trajectories
-  and GIFs, numerical exports, and local Lean builds.
-- **Rust:** 1.99.1, used for the upstream adaptive screens and exact reruns.
-- **MATLAB:** R2026a Update 5, used for `wind`, `stream3`, the original visual,
-  and the exact rolling numerical view.
-- **COMSOL Multiphysics:** 6.3 build 638, used for the independent local
-  source-free Helmholtz and diffusion realizations.
-- **Python:** 3.9.6, used to bind the exported TSV witness coordinates to Lean.
-- **Lean:** 4.36.0, used to prove the return witness and rolling-renderer
-  properties.
-- **GitHub Actions:** an independent Linux runner rebuilt Lean, verified
-  artifact hashes and witness binding, and audited axioms.
-- **2026 MacBook Pro and Seagate:** independently SHA-verified archival copies.
-- **GitHub, Zenodo, and DataCite:** public source, versioned release, archive,
-  and persistent identifiers.
-
-Taylor and Blu caught and interpreted the return in the canonical Studio
-session. The Pro and Seagate preserve it; GitHub Actions independently checked
-it. COMSOL is a regeneration dependency only for the local evanescent–diffusive
-tables; Rust and Lean verify their committed public handoff without requiring a
-COMSOL license.
+The committed calculations use Rust 1.99.1, MATLAB R2026a Update 5, COMSOL
+Multiphysics 6.3 build 638, Python 3.9.6 and Lean 4.36.0. GitHub Actions rebuilds
+Lean on an independent Linux runner, verifies the artifact hashes and data
+bindings, runs both Rust mutation suites and audits axioms. COMSOL is required
+only to regenerate the evanescent–diffusive comparison; Rust and Lean verify
+its committed numerical handoff without requiring a COMSOL license.
