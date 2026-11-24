@@ -20,6 +20,11 @@ MATLAB and MathWorks are trademarks of The MathWorks, Inc. Their mention does
 not imply endorsement. Users are responsible for operating MATLAB under their
 own applicable license.
 
+The geographic rendering uses Natural Earth 1:110m Admin 0 country geometry
+from the `natural-earth-vector` project. Natural Earth data are public domain.
+The country geometry is retrieved during rendering and is not committed to this
+repository.
+
 The local evanescent-diffusive realization additionally requires separately
 licensed COMSOL Multiphysics 6.3 and LiveLink for MATLAB to regenerate. COMSOL
 software, binaries, application libraries, and licensed examples are not

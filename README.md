@@ -120,6 +120,25 @@ malformed or reordered data, recomputes every velocity magnitude, and performs
 the complete neighborhood search. Lean does not turn the finite certificates
 into an infinite convergence statement.
 
+## Geographic rendering
+
+MathWorks documents `wind.mat` as measured three-dimensional air-current data
+over North America. Its positive `x = 70…134` axis is rendered here as degrees
+west and `y` as degrees north; MathWorks does not document the `z` or velocity
+units or the original observing agency.
+
+Path 22 begins at the exact dataset coordinate `(80,20,6)`, crosses Mexico,
+and folds into repeated circulation over the eastern Pacific near Baja and
+southwestern Mexico. The solid curve contains all **2,677 measured streamline
+samples**. Passive whiskers touch the complete arclength without identifying a
+node. Both ends fade into explicitly unmeasured waves; no exterior velocity is
+assigned.
+
+![Path 22 over the North American air-current field](artifacts/Path22_Whiskered_North_America.png)
+
+The source uses Natural Earth's public-domain 1:110m country geometry. The SVG
+is retained beside the PNG for exact scaling.
+
 ## Spectral and Poincaré exploration
 
 An affine one-step operator fitted to the 594-transition channel has a complex
@@ -222,6 +241,27 @@ Rust binds the complete MATLAB and COMSOL exports and rejects altered field,
 alignment, arc-length, and COMSOL flux records. Lean proves the resulting
 finite arithmetic certificate. [Read the local realization](EVANESCENCE.md).
 
+## Unforced Navier–Stokes realization
+
+The native wind field failed a frozen steady incompressibility gate, so its
+negative result was preserved rather than retuned. Path 22 geometry then became
+a new smooth divergence-free periodic initial body with `E(0)=1`,
+`nu=0.01`, and body force identically zero.
+
+The realized body remained divergence-free near `10^-17`, concentrated local
+speed while total energy decayed, passed through zero fixed-whisker retention
+with nonzero field energy, returned weakly in orientation, and released the
+listening geometry. A phase-erased control followed the same carrier class.
+Studio, Pro, and Intel reproduced the frozen tables across Apple silicon and
+x86_64.
+
+The separate short MIT repository contains eleven no-axiom Lean theorems, the
+GIF, deterministic data binding, universal material scaling, and Earth water
+and air realizations. [Read the unforced realization](UNFORCED-NAVIER-STOKES.md)
+or [open its formal repository](https://github.com/tmccoy678/path22-unforced-ns).
+
+![Path 22 unforced Navier–Stokes realization](artifacts/Path22_Unforced_NS_Realization.gif)
+
 ## What Lean proves
 
 `Riemann/Return.lean` proves the quantified near-return above.
@@ -246,6 +286,10 @@ and all sixteen crossings from the preserved trajectory.
 
 `Riemann/Nulls.lean` proves the compact null-atlas count and distance
 certificates. Rust binds those constants to all 19 exported field zeros.
+
+The unforced Navier–Stokes certificate is maintained separately in
+`path22-unforced-ns` so this repository's Lean surface remains the exact formal
+body of the measured Riemann return.
 
 `Riemann/Bridge.lean` proves the critical-line/unit-circle arithmetic
 certificate and the fixed-operator and nonautonomous-cocycle intertwining
@@ -296,6 +340,9 @@ field. `stream3` integrates seeds from the plane `x = 80`, with
   LiveLink.
 - `source/render_path22_seed_eye.m` renders the existing trajectories from the
   original seed direction.
+- `source/render_path22_map.py` renders Path 22 over Natural Earth geography,
+  with measured samples, passive whiskers, return glow, and explicitly
+  unmeasured wave continuation.
 - `data/riemann_paths.tsv` preserves the 49 source trajectories.
 - `data/path22_flow.tsv` preserves the derived velocity profile.
 - `data/path22_neighborhood_0125.tsv` preserves all 963,542 neighborhood
@@ -310,6 +357,10 @@ field. `stream3` integrates seeds from the plane `x = 80`, with
 - `data/path22_spectrum_receipt.txt` is the compact spectral handoff.
 - `data/wind_field_zero_receipt.txt` is the compact null-atlas handoff.
 - `data/path22_channel_receipt.txt` is the compact handoff for light machines.
+- `artifacts/Path22_Whiskered_North_America.svg` preserves the scalable
+  geographic rendering.
+- `artifacts/Path22_Unforced_NS_Realization.gif` displays the Lean-bound
+  unforced metrics beside the realization equation.
 - `rust/path22-audit` is the dependency-free full-data verifier and mutation
   test suite.
 - `rust/evanescence-audit` independently binds the MATLAB and COMSOL local
