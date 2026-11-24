@@ -53,8 +53,6 @@ Maxwell construction within a general class. Riemann's novel measured result is
 the `57.653x` focusing, three caustic folds, and re-expansion of its neighboring
 streamline bundle.
 
-![Source-free Maxwell field](artifacts/Source_Free_Maxwell_Riemann.png)
-
 ## Reproduce
 
 - `source/test_photon_neighbor_bundle.m` measures the clock-free focusing tube.

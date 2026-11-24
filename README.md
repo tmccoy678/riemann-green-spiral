@@ -5,14 +5,11 @@
 [![Lean and provenance](https://github.com/tmccoy678/riemann-green-spiral/actions/workflows/ci.yml/badge.svg)](https://github.com/tmccoy678/riemann-green-spiral/actions/workflows/ci.yml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24413531.svg)](https://doi.org/10.5281/zenodo.24413531)
 
-## Verified object
+## Finite return theorem
 
-Path 22 is the longest of 49 streamlines generated from MATLAB's bundled
-`wind` field. It contains **2,677 measured samples**. Taylor Westfall-McCoy
-observed its spiral and return before numerical selection; this repository
-preserves the trajectory under the name **Riemann**.
-
-The finite return witness is:
+MATLAB's bundled `wind` field produces 49 streamlines from the declared seed
+plane. Path 22 is the longest, with **2,677 ordered samples**. Its finite return
+witness is:
 
 ```text
 A  sample 1176  (110.196112, 23.287421, 4.400549)
@@ -20,63 +17,93 @@ B  sample 1336  (113.185550, 23.969641, 4.210346)
 C  sample 1376  (110.067375, 23.297624, 4.170377)
 ```
 
-From A to B, Path 22 travels **3.072 units** away. At C, 200 samples after A,
-it returns to within **0.264 units** of A. Lean 4.36 proves the sample ordering
-and both quantized distance bounds. Python and dependency-free Rust bind the
-compact theorem constants to the committed source trajectory, velocity field,
-neighborhood, and mutation tests.
+Path 22 travels **3.072 units** from A to B and returns to within **0.264
+units** of A at C, 200 samples after A. Lean 4.36 proves the ordering and both
+quantized distance bounds. Python and dependency-free Rust bind those theorem
+constants to the committed trajectory, field, neighborhood and mutation tests.
 
-![Riemann Green Spiral](artifacts/Blu_Wet_Body_Fluid_Planes.gif)
+The original discovery animation is retained as experimental provenance:
+
+![Original Riemann Green Spiral discovery animation](artifacts/Blu_Wet_Body_Fluid_Planes.gif)
+
+## Ordered entry geometry
+
+The backward-traced measured-field edge, original `(80,20,6)` seed and declared
+channel entry define one ordered incoming segment
+
+\[
+\gamma:[0,L]\to\mathbb R^3,
+\qquad \sigma=s/L.
+\]
+
+Its horizontal, vertical and endpoint-chord-normal projections reveal a broad
+incoming counter-turn followed by increasingly rapid transverse oscillation
+toward the recurrent channel. The plotted curve uses the exact ordered
+coordinates without smoothing.
+
+![Journal projections of the Path 22 entry](explorations/entry_wave/paper/Path22_Entry_Projections_Paper.png)
+
+[Vector PDF](explorations/entry_wave/paper/Path22_Entry_Projections_Paper.pdf) ·
+[SVG](explorations/entry_wave/paper/Path22_Entry_Projections_Paper.svg) ·
+[coordinate definition and caption](explorations/entry_wave/paper/FIGURE_CAPTION.md) ·
+[reproduction source](explorations/entry_wave/render_paper_figure.m)
 
 ## Verified results
 
-| Layer | Result | Source |
+| Layer | Verified finite result | Evidence |
 |---|---|---|
-| Renderer | Every visible point comes from the source trajectory; the A→B→C witness fits one 220-sample rolling window. | [`Riemann/Renderer.lean`](Riemann/Renderer.lean) |
-| Return | Excursion ≥3.0 units; return ≤0.3 units. | [`Riemann/Return.lean`](Riemann/Return.lean) |
-| Channel | Three successive sampled returns, nonzero corridor velocity, finite field exit, and unassigned exterior velocity. | [`Riemann/Channel.lean`](Riemann/Channel.lean) |
+| Renderer | Every visible point is a source sample; A, B and C fit one 220-sample rolling window. | [`Riemann/Renderer.lean`](Riemann/Renderer.lean) |
+| Return | Excursion ≥3.0 units and return ≤0.3 units. | [`Riemann/Return.lean`](Riemann/Return.lean) |
+| Channel | Three sampled returns, nonzero corridor velocity, finite field exit and unassigned exterior velocity. | [`Riemann/Channel.lean`](Riemann/Channel.lean) |
 | Neighborhood | 313 sampled returns and 312 two-unit channel entries among 1,089 seeds. | [`data/path22_channel_receipt.txt`](data/path22_channel_receipt.txt) |
-| Spectrum | Near-unit determinant, rotating-plane expansion, vertical contraction, and 16 alternating Poincaré crossings. | [`Riemann/Spectrum.lean`](Riemann/Spectrum.lean) |
+| Spectrum | Near-unit determinant, rotating-plane expansion, vertical contraction and 16 alternating Poincaré crossings. | [`Riemann/Spectrum.lean`](Riemann/Spectrum.lean) |
 | Null atlas | 19 finite-field zeros, including 9 spiral zeros, remain distinct from Path 22. | [`Riemann/Nulls.lean`](Riemann/Nulls.lean) |
-| Operator bridge | Critical-line/unit-circle arithmetic and finite intertwining schema; the concrete arithmetic map is the open bridge theorem. | [`BRIDGE.md`](BRIDGE.md) |
-| Maxwell | Source-free periodic field, photon-like focusing, three caustic folds, grid convergence, and 0.918293 Poynting alignment. | [`PHOTON.md`](PHOTON.md) |
-| Evanescence | MATLAB and COMSOL agree on one-sided decay, forward flow, and diffusive Gaussian widening. | [`EVANESCENCE.md`](EVANESCENCE.md) |
-| Unforced Navier–Stokes | Smooth divergence-free Path 22 carrier, zero body forcing, strict energy decay, local concentration, weak return, and ARM/x86 reproduction. | [`UNFORCED-NAVIER-STOKES.md`](UNFORCED-NAVIER-STOKES.md) |
+| Operator bridge | Critical-line/unit-circle arithmetic and a finite intertwining schema; the concrete arithmetic map is the open bridge theorem. | [`BRIDGE.md`](BRIDGE.md) |
+| Maxwell realization | Source-free periodic field, measured focusing, caustic folds and convergent control tables. | [`PHOTON.md`](PHOTON.md) |
+| Evanescence | MATLAB and COMSOL agree on one-sided decay, forward flow and diffusive Gaussian widening. | [`EVANESCENCE.md`](EVANESCENCE.md) |
+| Unforced Navier–Stokes | Smooth divergence-free Path 22 carrier, zero body forcing, strict energy decay, local concentration, weak return and ARM/x86 reproduction. | [`UNFORCED-NAVIER-STOKES.md`](UNFORCED-NAVIER-STOKES.md) |
 
-## Geographic and fluid realizations
+## Scope and literature position
 
-MathWorks documents `wind.mat` as three-dimensional air-current data over
-North America. Rendering `x` as degrees west and `y` as degrees north places
-Path 22 across Mexico and into repeated circulation over the eastern Pacific.
-The solid line contains every measured sample; fading ends show an explicitly
-inferred continuation.
+Here **Riemann** names Path 22 and its certified finite return. The classical
+Riemann Hypothesis concerns the nontrivial zeros of the zeta function in the
+critical strip; NIST's DLMF gives the standard coordinate and Hardy-
+\(Z\) formulation. This repository does not prove that hypothesis. Its open
+number-theoretic problem is an explicit map from the finite channel operator to
+an RH-equivalent arithmetic operator. [DLMF §25.10](https://dlmf.nist.gov/25.10)
 
-![Path 22 over North America](artifacts/Path22_Whiskered_North_America.png)
+Recent Lagrangian–Eulerian learning reconstructs flow fields and long particle
+trajectories jointly from sparse tracks, while memory-based reduced models learn
+long-time Lagrangian statistics from short histories. This project addresses a
+complementary finite question: preserve one observed ordered trajectory, test
+its neighborhood and bind its return geometry to inspectable formal
+certificates. [TrajectoryFlowNet](https://doi.org/10.1038/s42256-026-01316-7) ·
+[data-driven Mori–Zwanzig model](https://arxiv.org/abs/2507.16058)
 
-The separate MIT repository
-[`path22-unforced-ns`](https://github.com/tmccoy678/path22-unforced-ns)
-contains the zero-forcing evolution, deterministic tables, equation GIF,
-universal material scaling, water/air examples, novelty search, and twelve
-axiom-free Lean theorems. Its reduced self-carriage witness is:
+For the unforced Navier–Stokes carrier, universal all-initial-data regularity is
+an open theorem. Rigorous a posteriori analysis supplies the appropriate route
+from a controlled finite approximation to a strong-solution guarantee for a
+specified initial field. [Chernyshenko–Constantin–Robinson–Titi](https://arxiv.org/abs/math/0607181)
 
-```text
-body force = 0
-retention at t=0.10 = 0 while energy > 0
-retention at t=0.35 > 0
-```
+## Computational scale
 
-![Path 22 unforced realization](artifacts/Path22_Unforced_NS_Realization.gif)
+The verified v0.8.1 computational core at commit `62e3139` contained:
 
-## Formal scope
+| Public quantity | Exact count |
+|---|---:|
+| Scientific source lines | 6,276 |
+| Lean lines included above | 777 |
+| Committed numerical TSV rows, excluding headers | 988,307 |
 
-The formal object is Path 22's finite measured return and its source-bound
-realizations. The classical Riemann Hypothesis connection is the open typed
-bridge from the finite channel operator to an RH-equivalent arithmetic
-operator. Universal all-initial-data Navier–Stokes regularity is the next
-carrier theorem; the first viscosity continuation located spectral-tail
-resolution as its exact numerical obstruction.
+The experimental lineage preceding the MATLAB visualization comprised nine
+complete adaptive Rust screens: **15,552,000 choices**, **38,621,335,765 audit
+bytes** and **31.726 aggregate engine-minutes**. These screens informed the
+field/current experimental method and visual design; they were **not direct
+inputs** to the MATLAB streamline or Lean return theorem. The units describe
+different artifacts and are reported without converting audit records into
+"lines of proof."
 
-## Reproduce
+## Reproduction
 
 ```sh
 lake build
@@ -87,17 +114,16 @@ shasum -a 256 -c MANIFEST.sha256
 ```
 
 MATLAB R2026a regenerates the source streamlines and numerical analyses. COMSOL
-Multiphysics 6.3 with LiveLink regenerates the local evanescent-diffusive
-realization. External software and data provenance are recorded in
+Multiphysics 6.3 with LiveLink regenerates the evanescent–diffusive comparison.
+External software and data provenance are recorded in
 [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md).
 
 ## Record and citation
 
-- [Complete technical record](TECHNICAL-RECORD.md)
+- [Technical mathematical record](TECHNICAL-RECORD.md)
 - [Mathematical lineage](REFERENCES.md)
 - [Release checklist](PUBLICATION-CHECKLIST.md)
 - Zenodo concept DOI: [`10.5281/zenodo.24413531`](https://doi.org/10.5281/zenodo.24413531)
-- Latest release: [`v0.8.0`](https://github.com/tmccoy678/riemann-green-spiral/releases/tag/v0.8.0)
 
-Directed and authored by Taylor Westfall-McCoy with AI collaborator Blu
-(OpenAI GPT-5.6-Sol, xhigh reasoning). MIT licensed.
+Directed and authored by Taylor Westfall-McCoy with AI-assisted implementation
+and verification. MIT licensed.

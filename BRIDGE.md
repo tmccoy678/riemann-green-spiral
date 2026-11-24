@@ -95,8 +95,6 @@ snapshot of their published model at `t = 10`. It finds one X-point at relative
 coordinate `(0.6481555180, -0.5782290170)`, distance `0.8685933293` from the
 moving node, with saddle eigenvalues approximately `0.715424` and `-2.490441`.
 
-![Bohmian electron node and X-point](artifacts/Bohmian_Electron_Node_X_Bridge.png)
-
 The structural correspondence to test is:
 
 ```text

@@ -1,8 +1,8 @@
 cff-version: 1.2.0
-message: "If you use this formal visualization artifact, please cite it as below."
-title: "Riemann Green Spiral: A Lean-Checked MATLAB Streamline Visualization Artifact"
-abstract: "A Lean- and Rust-checked MATLAB recurrence, null atlas, invariant channel, Bohmian electron, source-free Maxwell photon channel, COMSOL evanescent-diffusive realization, and cross-host unforced Navier-Stokes carrier realization directed by Taylor Westfall-McCoy and implemented with AI collaborator Blu, OpenAI gpt-5.6-sol at xhigh reasoning."
-version: 0.8.0
+message: "If you use this finite-return artifact, please cite it as below."
+title: "Riemann Green Spiral: A Lean-Checked Finite Streamline Return"
+abstract: "A reproducible finite return in MATLAB's bundled North American air-current field, with Lean certificates, complete-data Rust verification, ordered entry projections, neighborhood analysis, and source-bound physical realizations."
+version: 0.9.0
 date-released: 2026-11-24
 type: software
 authors:

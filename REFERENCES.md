@@ -65,3 +65,36 @@ It does not identify MATLAB's `wind` velocity field as a magnetic field; that
 physical interpretation additionally requires Maxwell-compatible field and
 divergence checks.
 
+## Zeta coordinates and ordered zeros
+
+- NIST Digital Library of Mathematical Functions. §25.10, *Zeros of the
+  Riemann zeta function*. https://dlmf.nist.gov/25.10
+
+The DLMF source fixes the critical-strip, critical-line, and Hardy-
+\(Z(t)\) coordinates used to state the classical Riemann Hypothesis. Path 22's
+finite return is not identified with that zero set.
+
+## Lagrangian trajectory inference and memory
+
+- Wan, J., Wang, H., Liu, B., et al. (2026). Lagrangian–Eulerian learning of
+  flow field and trajectories with TrajectoryFlowNet. *Nature Machine
+  Intelligence*. https://doi.org/10.1038/s42256-026-01316-7
+- de Wit, X., Gabbana, A., Woodward, M., et al. (2025). Data-driven
+  Mori–Zwanzig modeling of Lagrangian particle dynamics in turbulent flows.
+  https://arxiv.org/abs/2507.16058
+
+These works motivate joint reasoning about ordered particle histories and the
+fields or unresolved memory that carry them. The present repository contributes
+a finite source-bound trajectory, neighborhood and formal certificate rather
+than a learned long-time surrogate.
+
+## A posteriori Navier–Stokes verification
+
+- Chernyshenko, S. I., Constantin, P., Robinson, J. C., & Titi, E. S. (2007).
+  A posteriori regularity of the three-dimensional Navier–Stokes equations from
+  numerical computations. *Journal of Mathematical Physics, 48*, 065204.
+  https://doi.org/10.1063/1.2372512
+
+This supplies the rigorous finite-computation framework relevant to a future
+all-time strong-solution certificate for the specified Path 22 carrier.
+

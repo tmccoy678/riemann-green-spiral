@@ -1,0 +1,21 @@
+PATH 22 ENTRY-WAVE GEOMETRY
+date=2026-11-24
+entry_points=1211
+edge_x=74.3902
+edge_y=17.5876301244372
+edge_z=6.03619250941295
+seed_point_index=36
+channel_entry_forward_sample=1176
+entry_arc_length=189.925151173451
+entry_endpoint_chord=36.2936122521017
+arc_to_chord_ratio=5.23301868808755
+vertical_residual_turns=20
+transverse_residual_turns=34
+vertical_dominant_cycles=1
+vertical_dominant_band_energy_fraction=0.344415024807849
+transverse_dominant_cycles=1
+transverse_dominant_band_energy_fraction=0.103516121126932
+smoothing_window_samples=21
+
+The side profiles describe ordered streamline geometry in a frozen steady field.
+They do not assign a physical time or identify a propagating particle wave.
