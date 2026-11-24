@@ -2,10 +2,9 @@
 
 ## Realization chain
 
-The native MATLAB `wind` field revealed Path 22 and its finite return. It did
-not itself pass a frozen steady incompressible unforced Navier–Stokes gate:
-normalized divergence was `0.16020797` globally and `0.10025109` in the Path 22
-corridor against the predeclared `0.05` scale.
+The native MATLAB `wind` field revealed Path 22 and its finite return. Its
+normalized divergence measured `0.16020797` globally and `0.10025109` in the
+Path 22 corridor, above the predeclared `0.05` steady incompressibility gate.
 
 The negative result was preserved. Path 22 geometry was then written into a new
 smooth periodic vector potential,
