@@ -103,6 +103,16 @@ inputs** to the MATLAB streamline or Lean return theorem. The units describe
 different artifacts and are reported without converting audit records into
 "lines of proof."
 
+For scale only, OpenAI's distinct forced-blowup Navier–Stokes project reported
+approximately **10,000 concurrent agents**, **2.7 million messages**, **130
+billion output tokens**, **88 hours** of discovery, and **17 additional hours**
+of Lean formalization. Its public formal repository at commit
+[`f9e8bc5`](https://github.com/openai/NavierStokesAndEuler/tree/f9e8bc5b38b6e212696e8a30e3e91517af887bbd)
+contains **641,332 physical Lean lines across 2,659 Lean files**, compared with
+this artifact's 777 Lean lines. These are repository/output scales, not measures
+of theorem strength or efficiency; the mathematical statements are different.
+[Official project report](https://openai.com/index/navier-stokes-solution/)
+
 ## Reproduction
 
 ```sh
