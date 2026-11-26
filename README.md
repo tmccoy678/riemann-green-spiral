@@ -1,9 +1,39 @@
 # Riemann Green Spiral
 
-**A Lean-checked finite return in MATLAB's North American air-current field.**
+**An exact reversible six-port law with measured geometric and smooth fluid
+branches.**
 
 [![Lean and provenance](https://github.com/tmccoy678/riemann-green-spiral/actions/workflows/ci.yml/badge.svg)](https://github.com/tmccoy678/riemann-green-spiral/actions/workflows/ci.yml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24413531.svg)](https://doi.org/10.5281/zenodo.24413531)
+
+## Oriented Reciprocal Six-Port Law
+
+Let \(T\) advance through the ordered reduced residues
+\(1,5,7,11,13,17\) modulo 18, and let \(M\) reverse the oriented root and
+the three signed current coordinates. The law is
+
+\[
+T^6=I,\qquad M^2=I,\qquad MTM=T^{-1},
+\qquad
+\frac{57}{14}\longleftrightarrow\frac{14}{57}.
+\]
+
+The cyclic gap word is \((4,2)^3\). Its three `+2` crossings are
+\(5\to7\), \(11\to13\), and \(17\to19\equiv1\pmod{18}\).
+Dependency-free Lean proves the complete finite statement.
+
+![Oriented Reciprocal Six-Port Law](artifacts/Oriented_Reciprocal_Six_Port_Law.png)
+
+[Vector PDF](artifacts/Oriented_Reciprocal_Six_Port_Law.pdf) ·
+[Lean boundary](Riemann/Mod18Boundary.lean) ·
+[Lean return law](Riemann/OrientedSixPort.lean) ·
+[R reproduction source](source/render_oriented_six_port.R)
+
+| Branch | Finite object | Primary certificate |
+|---|---|---|
+| Arithmetic | Reversible six-cycle on the reduced residues modulo 18. | [`Riemann/OrientedSixPort.lean`](Riemann/OrientedSixPort.lean) |
+| Measured geometry | Ordered Green Spiral trajectory with a certified finite return. | [`Riemann/Return.lean`](Riemann/Return.lean) |
+| Smooth flow | Divergence-free unforced carrier with strict energy decay. | [`UNFORCED-NAVIER-STOKES.md`](UNFORCED-NAVIER-STOKES.md) |
 
 ## Finite return theorem
 
@@ -59,6 +89,7 @@ coordinates without smoothing.
 | Spectrum | Near-unit determinant, rotating-plane expansion, vertical contraction and 16 alternating Poincaré crossings. | [`Riemann/Spectrum.lean`](Riemann/Spectrum.lean) |
 | Null atlas | 19 finite-field zeros, including 9 spiral zeros, remain distinct from Path 22. | [`Riemann/Nulls.lean`](Riemann/Nulls.lean) |
 | Operator bridge | Critical-line/unit-circle arithmetic and a finite intertwining schema; the concrete arithmetic map is the open bridge theorem. | [`BRIDGE.md`](BRIDGE.md) |
+| Oriented reciprocal six-port law | Six reduced residues modulo 18, exact `4,2,4,2,4,2` closure, three `+2` crossings, root mirroring, `T⁶ = I`, `M² = I`, `MTM = T⁻¹`, and exact `57/14 ↔ 14/57` reciprocity. | [`Riemann/Mod18Boundary.lean`](Riemann/Mod18Boundary.lean) · [`Riemann/OrientedSixPort.lean`](Riemann/OrientedSixPort.lean) |
 | Maxwell realization | Source-free periodic field, measured focusing, caustic folds and convergent control tables. | [`PHOTON.md`](PHOTON.md) |
 | Evanescence | MATLAB and COMSOL agree on one-sided decay, forward flow and diffusive Gaussian widening. | [`EVANESCENCE.md`](EVANESCENCE.md) |
 | Unforced Navier–Stokes | Smooth divergence-free Path 22 carrier, zero body forcing, strict energy decay, local concentration, weak return and ARM/x86 reproduction. | [`UNFORCED-NAVIER-STOKES.md`](UNFORCED-NAVIER-STOKES.md) |
@@ -68,9 +99,9 @@ coordinates without smoothing.
 Here **Riemann** names Path 22 and its certified finite return. The classical
 Riemann Hypothesis concerns the nontrivial zeros of the zeta function in the
 critical strip; NIST's DLMF gives the standard coordinate and Hardy-
-\(Z\) formulation. This repository does not prove that hypothesis. Its open
-number-theoretic problem is an explicit map from the finite channel operator to
-an RH-equivalent arithmetic operator. [DLMF §25.10](https://dlmf.nist.gov/25.10)
+\(Z\) formulation. The repository's number-theoretic theorem program seeks an
+explicit map from the finite channel operator to an RH-equivalent arithmetic
+operator. [DLMF §25.10](https://dlmf.nist.gov/25.10)
 
 Recent Lagrangian–Eulerian learning reconstructs flow fields and long particle
 trajectories jointly from sparse tracks, while memory-based reduced models learn
