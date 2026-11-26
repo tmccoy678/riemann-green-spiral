@@ -52,6 +52,22 @@ and plasma-field research. These sources identify that lineage.
   space. *Proceedings of the National Academy of Sciences, 17*(5), 315–318.
   https://doi.org/10.1073/pnas.17.5.315
 
+## Reduced residues and reversible maps
+
+- Baptistelli, P. H., Labouriau, I. S., & Manoel, M. (2020). Recognition of
+  symmetries in reversible maps. *Journal of Mathematical Analysis and
+  Applications, 491*(2), Article 124348.
+  https://doi.org/10.1016/j.jmaa.2020.124348
+- Holt, F. B., & Rudd, H. (2014). *Eratosthenes sieve and the gaps between
+  primes* [Preprint]. arXiv. https://arxiv.org/abs/1408.6002
+- Lamb, J. S. W., & Roberts, J. A. G. (1998). Time-reversal symmetry in
+  dynamical systems: A survey. *Physica D: Nonlinear Phenomena, 112*(1–2),
+  1–39. https://doi.org/10.1016/S0167-2789(97)00199-1
+
+The Lean modules use “reduced residue system,” “cycle of gaps,” “involution,”
+and “reversible map” in these standard senses. The finite mod-18 successor map
+is distinct from multiplication by a generator of the unit group.
+
 ## Three-dimensional magnetic nulls
 
 - Parnell, C. E., Smith, J. M., Neukirch, T., & Priest, E. R. (1996). The

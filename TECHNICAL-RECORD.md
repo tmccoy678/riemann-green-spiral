@@ -48,6 +48,32 @@ remains preserved: **the display forgets; the path returns.**
 
 ![Riemann Green Spiral](artifacts/Blu_Wet_Body_Fluid_Planes.gif)
 
+## Oriented Reciprocal Six-Port Law
+
+The ordered reduced residue system modulo 18 is
+`1, 5, 7, 11, 13, 17`, with cyclic gap word `4, 2, 4, 2, 4, 2`.
+`Riemann/Mod18Boundary.lean` proves the exhaustive residue list, exact
+successor gaps, three opposite pairs, signed-current reversal, and return
+through `19 ≡ 1 (mod 18)`.
+
+`Riemann/OrientedSixPort.lean` adds an ordered binary root, the forward map
+(T), and the reversing involution (M). Lean verifies
+
+[
+T^6=I,qquad M^2=I,qquad MTM=T^{-1},
+]
+
+together with the three `+2` crossings and the exact reciprocal pairing
+(57/14\leftrightarrow14/57). The proof uses only Lean's core library.
+
+![Oriented Reciprocal Six-Port Law](artifacts/Oriented_Reciprocal_Six_Port_Law.png)
+
+The figure is reproduced by
+`Rscript source/render_oriented_six_port.R`; the repository retains a
+300-dpi PNG and vector PDF. Reduced-residue gap cycles and reversing
+involutions follow the terminology of Holt and Rudd (2014), Lamb and Roberts
+(1998), and Baptistelli et al. (2020).
+
 ## Finite channel exploration
 
 The channel review keeps the result finite and allows the field to end. A
