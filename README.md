@@ -129,9 +129,10 @@ The verified v0.8.1 computational core at commit `62e3139` contained:
 The experimental lineage preceding the MATLAB visualization comprised nine
 complete adaptive Rust screens: **15,552,000 choices**, **38,621,335,765 audit
 bytes** and **31.726 aggregate engine-minutes**. These screens informed the
-field/current experimental method and visual design; they were **not direct
-inputs** to the MATLAB streamline or Lean return theorem. The units describe
-different artifacts and are reported without converting audit records into
+field/current method and visual design. The finite return theorem is
+reconstructed from the committed MATLAB trajectory and its Lean, Python and
+Rust witness pipeline. The units describe different artifacts and are reported
+without converting audit records into
 "lines of proof."
 
 For scale only, OpenAI's distinct forced-blowup Navier–Stokes project reported

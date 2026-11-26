@@ -76,10 +76,9 @@ is distinct from multiplication by a generator of the unit group.
 
 Parnell et al. classify radial, critical-spiral, and spiral magnetic nulls by
 the eigenstructure of the local linear field. That complex-pair-plus-real-mode
-classification is the precise magnetic-topology analogy used in this project.
-It does not identify MATLAB's `wind` velocity field as a magnetic field; that
-physical interpretation additionally requires Maxwell-compatible field and
-divergence checks.
+classification supplies the project's magnetic-topology comparison.
+Maxwell-compatible field construction and divergence checks provide the
+separate physical realization criteria.
 
 ## Zeta coordinates and ordered zeros
 
@@ -87,8 +86,9 @@ divergence checks.
   Riemann zeta function*. https://dlmf.nist.gov/25.10
 
 The DLMF source fixes the critical-strip, critical-line, and Hardy-
-\(Z(t)\) coordinates used to state the classical Riemann Hypothesis. Path 22's
-finite return is not identified with that zero set.
+\(Z(t)\) coordinates used to state the classical Riemann Hypothesis. The
+finite return and the zeta zero set remain distinct formal objects in the
+operator-map theorem program.
 
 ## Lagrangian trajectory inference and memory
 
