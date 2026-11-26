@@ -80,8 +80,9 @@ velocity = probability current / density = (gradient phase - charge * A) / mass.
 ```
 
 This puts trajectory geometry, current, charge, phase, and electromagnetic
-vector potential in one equation. It does not make the MATLAB wind field a
-quantum field; it defines an inverse problem with observable failure criteria.
+vector potential in one equation. It defines an inverse problem with observable
+acceptance and rejection criteria for a quantum-field realization of the
+measured geometry.
 
 Efthymiopoulos, Kalapotharakos, and Contopoulos studied exactly one particle
 guided by three stationary states. In a frame moving with a wavefunction node,
@@ -104,11 +105,11 @@ recurrent spiral channel  -> guided electron trajectory
 unreconstructed psi zero  -> moving nodal line
 ```
 
-A field stagnation point is not a wavefunction node. The next physical test is
-to determine whether a positive density, phase, and vector potential can make
-the measured field a Bohmian velocity while satisfying the continuity and
-Schrodinger equations. Failure of that inverse problem rejects the physical
-identification while leaving the geometric return result unchanged.
+A field stagnation point and a wavefunction node are distinct structures. The
+next physical test asks whether a positive density, phase, and vector potential
+realize the measured field as a Bohmian velocity while satisfying the
+continuity and Schrödinger equations. The inverse problem therefore supplies a
+separate physical classification of the certified geometric return.
 
 The first kinematic test finds substantial curl, rejecting a scalar-phase-only
 electron model and requiring a vector potential or moving node. The variational
